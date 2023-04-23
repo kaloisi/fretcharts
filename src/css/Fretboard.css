@@ -1,0 +1,126 @@
+
+body {
+    background-color: rgb(26, 29, 33);
+    color: white;
+}
+
+.fret-board {
+    display: table;
+    table-layout: fixed;
+    border-spacing: 0px 5px;
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #3C2820;
+}
+
+.note {
+    display: table-cell;
+    margin: 3px 3px;
+    text-align: center;
+    cursor: pointer;
+    color: black;
+    background-color: #3C2820;
+    font-size: large;
+    width: 100px;
+}
+
+.note svg {
+    width: 100px;
+    height: 100px;
+}
+
+.string {
+    display: table-row;
+}
+
+.string > div {
+    display: table-cell;
+}
+
+.stringSpacer {
+    display: table-cell;
+    background: linear-gradient(90deg, rgba(60,40,32,1) 45%, rgba(170,170,170,1) 50%, rgba(60,40,32,1) 55%);
+}
+
+.string > .note:first-child {
+    border-radius: 0%;
+    background-color: #3C2820;
+}
+
+.string > .stringSpacer:first-child {
+    background-color: white;
+}
+
+.scaleTable {
+    display: table;
+    margin-left: 10%;
+    width: 80%;
+    margin-top: 2em;
+    border-top: solid 1px #aaa;
+    border-right: solid 1px #aaa;
+    color: black;
+}
+
+.scaleTable > div {
+    display: table-row;    
+}
+
+.scaleTable > div > div {
+    display: table-cell;
+    text-align: center;
+    border-bottom: solid 1px #aaa;
+    border-left: solid 1px #aaa;
+    background-color:#ccc;
+}
+
+.scaleTable > div:first-child > div {
+    background-color: #666;
+    border: solid 1px #555;
+}
+
+.fret-markers {
+    display: table-row;
+}
+
+.fret-marker {
+    display: table-cell;
+    text-align: center;
+    width: 50px;
+}
+
+.fret-spacer {
+    background: linear-gradient(90deg, rgba(60,40,32,1) 45%, rgba(170,170,170,1) 50%, rgba(60,40,32,1) 55%);
+}
+
+.selectBox {
+    display: inline-block;
+    text-align: center;
+    font-size: larger;
+}
+
+.selectBoxLabel {
+    display: inline-block;
+    padding-right: 1em;
+}
+
+select {
+    font-size: 1em;
+}
+
+button {
+    font-size: 1em;
+}
+
+.keySelector {
+    margin: 1em;
+}
+
+.tuner > svg {
+    position: absolute;
+    display: inline-block;
+    width: 100%;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+}
+
