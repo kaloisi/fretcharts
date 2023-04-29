@@ -201,6 +201,46 @@ const Utils = {
                 ["5"],
             ]
         },
+        FIRST_MAJOR_PENTA: {
+            rootStringNumber: 4,
+            positionName: "1st",
+            name: "1st - Pentatonic (Major)",
+            fretOffsets: [
+                [-3,  0],
+                [-2,  0],
+                [-3, -1],
+                [-3, -1],
+                [-3,  0],
+                [-3,  0],
+            ],intervals: [
+                ["3", "5"],
+                ["1", "2"],
+                ["5", "6"],
+                ["2", "3"],
+                ["6", "1"],
+                ["3", "5"],
+            ]
+        },
+        FIRST_MINOR_PENTA: {
+            rootStringNumber: 4,
+            positionName: "1st",
+            name: "1st - Pentatonic (Minor)",
+            fretOffsets: [
+                [-2,  0],
+                [-2,  1],
+                [-3,  0],
+                [-2,  0],
+                [-2,  0],
+                [-2,  0],
+            ],intervals: [
+                ["4",  "5"],
+                ["1", "b3"],
+                ["5", "b7"],
+                ["b3", "4"],
+                ["b7", "1"],
+                [ "4", "5"],
+            ]
+        },
         SECOND: {
             rootStringNumber: 4,
             positionName: "2nd",
@@ -346,6 +386,46 @@ const Utils = {
                 ["b5","b7"],
             ]
         },
+        SECOND_MAJOR_PENTA: {
+            rootStringNumber: 4,
+            positionName: "2nd",
+            name: "2nd - Pentatonic (Major)",
+            fretOffsets: [
+                [ 0, 2],
+                [ 0, 2],
+                [-1, 2],
+                [-1, 2],
+                [ 0, 2],
+                [ 0, 2],
+            ],intervals: [
+                ["2", "6"],
+                ["3", "3"],
+                ["6", "1"],
+                ["3", "5"],
+                ["1", "2"],
+                ["5", "6"],
+            ]
+        },
+        SECOND_MINOR_PENTA: {
+            rootStringNumber: 4,
+            positionName: "2nd",
+            name: "2nd - Pentatonic (Minor)",
+            fretOffsets: [
+                [0, 3],
+                [1, 3],
+                [0, 2],
+                [0, 2],
+                [0, 3],
+                [0, 3],
+            ],intervals: [
+                ["5", "b7"],
+                ["b3", "4"],
+                ["b7", "1"],
+                ["4",  "5"],
+                ["1", "b3"],
+                ["5", "b7"],
+            ]
+        },
         THIRD: {
             rootStringNumber: 5,
             positionName: "3rd",
@@ -408,7 +488,8 @@ const Utils = {
                 ["3"],
                 ["b7", "1"],
             ]
-        }, THIRD_MINOR_7_ARPEGGIO: {
+        }, 
+        THIRD_MINOR_7_ARPEGGIO: {
             rootStringNumber: 5,
             positionName: "3rd",
             name: "3rd - Minor 7 Arpeggio",
@@ -426,6 +507,46 @@ const Utils = {
                 ["1", "b3"],
                 ["5", "b7"],
                 ["b3"],
+                ["b7", "1"],
+            ]
+        },
+        THRID_MAJOR_PENTA: {
+            rootStringNumber: 5,
+            positionName: "3rd",
+            name: "3rd - Pentatonic (Major)",
+            fretOffsets: [
+                [-3, 0],
+                [-3, 0],
+                [-3, -1],
+                [-3, -1],
+                [-3, -1],
+                [-3, 0],
+            ],intervals: [
+                ["6", "1"],
+                ["3", "5"],
+                ["1", "2"],
+                ["5", "6"],
+                ["2", "3"],
+                ["4", "1"],
+            ]
+        },
+        THIRD_MINOR_PENTA: {
+            rootStringNumber: 5,
+            positionName: "3rd",
+            name: "3rd - Pentatonic (Minor)",
+            fretOffsets: [
+                [-2, 0],
+                [-2, 0],
+                [-3, 0],
+                [-3, 0],
+                [-2, 0],
+                [-2, 0],
+            ],intervals: [
+                ["b7", "1"],
+                [ "4", "5"],
+                ["1",  "3"],
+                ["5",  "b7"],
+                ["b3", "4"],
                 ["b7", "1"],
             ]
         },
@@ -491,23 +612,43 @@ const Utils = {
                 ["1"],
             ]
         },
-        FORTH_MINOR_7_ARPEGGIO: {
+        FORTH_MAJOR_PENTA: {
             rootStringNumber: 5,
             positionName: "4th",
-            name: "4th - Minor 7 Arpeggio",
+            name: "4th - Pentatonic (Major)",
             fretOffsets: [
-                [0, 3],
-                [0, 3],
-                [0],
-                [0 , 2],
-                [2],
-                [0, 3],
+                [ 0,  2],
+                [ 0,  2],
+                [-1,  1],
+                [-1,  2],
+                [-1,  2],
+                [ 0,  2],
+            ],intervals: [
+                ["1", "2"],
+                ["5", "6"],
+                ["2", "3"],
+                ["6", "1"],
+                ["3", "5"],
+                ["1", "2"],
+            ]
+        },
+        FORTH_MINOR_PENTA: {
+            rootStringNumber: 5,
+            positionName: "4th",
+            name: "4th - Pentatonic (Minor)",
+            fretOffsets: [
+                [ 0,  3],
+                [ 0,  3],
+                [ 0,  2],
+                [ 0,  2],
+                [ 0,  2],
+                [ 0,  3],
             ],intervals: [
                 ["1", "b3"],
                 ["5", "b7"],
-                ["b3"],
-                ["b7" , "1"],
-                ["5"],
+                ["b3", "4"],
+                ["b7", "1"],
+                ["4", "5"],
                 ["1", "b3"],
             ]
         },
@@ -591,7 +732,47 @@ const Utils = {
                 ["5", "b7"],
                 ["b3"],
             ]
-        }
+        },
+        FIFTH_MAJOR_PENTA: {
+            rootStringNumber: 3,
+            positionName: "5th",
+            name: "5th - Pentatonic (Major)",
+            fretOffsets: [
+                [ 0,  2],
+                [ 0,  3],
+                [-1,  2],
+                [ 0,  2],
+                [ 0,  2],
+                [ 0,  2],
+            ],intervals: [
+                ["2", "3"],
+                ["6", "1"],
+                ["3", "5"],
+                ["1", "2"],
+                ["5", "6"],
+                ["2", "3"],
+            ]
+        },
+        FIFTH_MINOR_PENTA: {
+            rootStringNumber: 3,
+            positionName: "5th",
+            name: "5th - Pentatonic (Minor)",
+            fretOffsets: [
+                [ 1,  3],
+                [ 1,  3],
+                [ 0,  2],
+                [ 0,  3],
+                [ 0,  3],
+                [ 1,  3],
+            ],intervals: [
+                ["b3", "4"],
+                ["b7", "1"],
+                [ "4", "5"],
+                [ "1", "b3"],
+                [ "5", "b7"],
+                ["b3", "4"],
+            ]
+        },
     },
 
     resolveNotesForScale: resolveNotesForScale,
