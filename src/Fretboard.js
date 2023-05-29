@@ -6,6 +6,7 @@ import Scale from './Scale.js';
 import SelectBox from './SelectBox';
 import Utils from './utils';
 import GuitarState from './models/GuitarState';
+import Metronome from './Metronome';
 
 
 const SCALE_COLORS = ["#4E79A5", "#F18F3B", "#E0585B", "#77B7B2", "#5AA155", "#EDC958", "#AF7AA0", "#FE9EA8", "#9C7561", "#BAB0AC"];
@@ -130,7 +131,6 @@ class Fretboard extends React.Component {
       }
 
       fretMarkers.push((<div key={"fretMarker" + i} className="fret-marker">{dots}</div>));
-      fretMarkers.push((<div key={"fretSpacer" + i} className="fret-spacer"></div>));
     }
 
     return (
@@ -160,6 +160,8 @@ class Fretboard extends React.Component {
           <div className="fret-markers">{fretMarkers}</div>
         </div>
         
+        <Metronome />
+
         <div className="scaleTable">
           <div>
             <div>Color</div>
@@ -175,7 +177,9 @@ class Fretboard extends React.Component {
                 onCheck={(s) => this.onCheck(s)}
                 value={item} />
           ))
+
         }</div>
+        
       </div>
     );
   }

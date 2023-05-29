@@ -1,6 +1,6 @@
 
 body {
-    background-color: rgb(26, 29, 33);
+    background-color: #fae9e2;
     color: white;
 }
 
@@ -10,7 +10,7 @@ body {
     border-spacing: 0px 5px;
     width: 100%;
     border-collapse: collapse;
-    background-color: #3C2820;
+    background-color: #fae9e2;
 }
 
 .note {
@@ -19,9 +19,10 @@ body {
     text-align: center;
     cursor: pointer;
     color: black;
-    background-color: #3C2820;
+    background-color: #fae9e2;
     font-size: large;
     width: 100px;
+    border-right: 2px solid black;
 }
 
 .note svg {
@@ -37,18 +38,10 @@ body {
     display: table-cell;
 }
 
-.stringSpacer {
-    display: table-cell;
-    background: linear-gradient(90deg, rgba(60,40,32,1) 45%, rgba(170,170,170,1) 50%, rgba(60,40,32,1) 55%);
-}
-
 .string > .note:first-child {
     border-radius: 0%;
-    background-color: #3C2820;
-}
-
-.string > .stringSpacer:first-child {
-    background-color: white;
+    background-color: #fae9e2;
+    border-right: 6px solid black;
 }
 
 .scaleTable {
@@ -85,6 +78,7 @@ body {
 .fret-marker {
     display: table-cell;
     text-align: center;
+    color: black;
     width: 50px;
 }
 
@@ -122,5 +116,12 @@ button {
     left: 0px;
     right: 0px;
     bottom: 0px;
+}
+
+.metronome {
+    margin-top: 3em;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }
 

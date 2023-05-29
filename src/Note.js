@@ -53,7 +53,7 @@ class Note extends React.Component {
       const textColor = this.props.isInKey ? "white" : "#363636";
       const radius = 20;
       const pieSizeInDegs = scaleCount > 0 ? 360 / scaleCount : 0;
-      const isUsed = this.state.toneState.usedIn.size > 0;
+      const isUse = this.state.toneState.usedIn.size > 0;
       let pos = 0;
       
       
@@ -68,7 +68,7 @@ class Note extends React.Component {
                 {this.props.scales.map(nextScale => {
                         pos = pos + 1;
                         const showMe = this.state.toneState.isUsedInScale(nextScale); //usedIn.find(n => n.uid === nextScale.uid) !== undefined
-                        if (isUsed && nextScale.enabled) {
+                        if (isUse && showMe) {
                           const intLabel = this.state.toneState.getIntervalLabel(nextScale);
                           const startDeg = (pos - 1) * pieSizeInDegs - 90;
                           const endDeg = pos * pieSizeInDegs - 90;
@@ -76,8 +76,14 @@ class Note extends React.Component {
                           const p = this.cacluatePointOnCircle((endDeg + startDeg) / 2, radius + radius/2);
                           return (
                             <g key={this.props.id + "." + pos}>
-                              <path fill={showMe ? nextScale.color : "transparent"} stroke="black" d={this.createLinesAlongCurve(startDeg, endDeg, radius * 2)} />
-                              <text x={CENTER.x + p.x} y={CENTER.y + p.y} fontSize="16" fill="white" dominantBaseline="central" textAnchor="middle">{intLabel}</text>
+                              <path fill={ nextScale.color } 
+                                    opacity={nextScale.enabled ? 1.0 : 0.25 } 
+                                    stroke="black" 
+                                    d={this.createLinesAlongCurve(startDeg, endDeg, radius * 2)} />
+                              <text x={CENTER.x + p.x} y={CENTER.y + p.y} fontSize="16" 
+                                    stroke={nextScale.enabled ? "white" : "black" } 
+                                    dominantBaseline="central" 
+                                    textAnchor="middle">{intLabel}</text>
                             </g>
                           );
                         }

@@ -597,14 +597,14 @@ const Utils = {
             positionName: "4th",
             name: "4th - Dom 7 Arpeggio",
             fretOffsets: [
-                [0, 5],
+                [0],
                 [0, 2],
                 [1],
                 [0 , 2],
                 [-1, 2],
                 [0],
             ],intervals: [
-                ["1", "3"],
+                ["1"],
                 ["5", "b7"],
                 ["3"],
                 ["b7" , "1"],
@@ -612,24 +612,24 @@ const Utils = {
                 ["1"],
             ]
         },
-        FORTH_MAJOR_PENTA: {
+        FORTH_MINOR_7_ARPEGGIO: {
             rootStringNumber: 5,
             positionName: "4th",
-            name: "4th - Pentatonic (Major)",
+            name: "4th - Minor 7 Arpeggio",
             fretOffsets: [
-                [ 0,  2],
-                [ 0,  2],
-                [-1,  1],
-                [-1,  2],
-                [-1,  2],
-                [ 0,  2],
+                [0, 3],
+                [0, 2],
+                [0],
+                [0 , 2],
+                [2],
+                [0, 3],
             ],intervals: [
-                ["1", "2"],
-                ["5", "6"],
-                ["2", "3"],
-                ["6", "1"],
-                ["3", "5"],
-                ["1", "2"],
+                ["1", "b3"],
+                ["5", "b7"],
+                ["b3"],
+                ["b7" , "1"],
+                ["5"],
+                ["1", "b3"],
             ]
         },
         FORTH_MINOR_PENTA: {

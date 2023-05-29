@@ -10,7 +10,7 @@ class SelectBox extends React.Component {
         };
     }
 
-    select(e) {
+    selectOption(e) {
         const newValue = this.props.options.find(next => next.name === e.target.value)
         this.setState({
             value: newValue
@@ -29,7 +29,7 @@ class SelectBox extends React.Component {
 
         return (<div className="selectBox">
             <div className="selectBoxLabel">{this.props.label}</div>
-                <select onChange={(e) => this.select(e)} defaultValue={this.state.value.name} >
+                <select onChange={ (e) => this.selectOption(e) } defaultValue={this.state.value.name} >
                         {children}
                 </select>
             </div>);

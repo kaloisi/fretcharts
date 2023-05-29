@@ -15,7 +15,6 @@ class GuitarString extends React.Component {
       for (let i=0; i < this.state.stringState.tones.length; i++) {
         const tone = this.state.stringState.tones[i];
         const isInKey = this.props.musicKey.tones.find(e => e === tone.name);
-        const spacerKey = tone.uid + "-spacer";
         notes.push((
           <Note
             key={tone.uid}
@@ -25,7 +24,6 @@ class GuitarString extends React.Component {
             value={tone}
             /> 
         ));
-        notes.push(<div className="stringSpacer" key={spacerKey}></div>);
       }
 
       return (<div className="string">{notes}</div>);
