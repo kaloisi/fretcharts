@@ -6,8 +6,8 @@ export default class Metronome extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            bpm: 60,
-            bpb: 4,
+            bpm: this.props.bpm,
+            bpb: this.props.bpb,
             playing: false,
             interval: null,
             count: 0,

@@ -29,7 +29,9 @@ class Fretboard extends React.Component {
       key: key,
       scales: [],
       guitarState: guitarState,
-      progression: []
+      progression: [],
+      bpm: urlParams.getValue("bpm", 60),
+      bpb: urlParams.getValue("bpb", 4),
     };
   }
 
@@ -190,7 +192,7 @@ class Fretboard extends React.Component {
         
         <ChordProgression scales={this.state.scales} progression={this.state.progression}/>
 
-        <Metronome scales={this.state.scales} />
+        <Metronome scales={this.state.scales} bpb={this.state.bpb} bpm={this.state.bpm} />
 
         <div className="scaleTable">
           <div>

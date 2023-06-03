@@ -36,13 +36,13 @@ class DocParamMap {
     this.values = state;
   }
 
-  getValues(name) {
-    return this.values[name];
+  getValues(name, defVal) {
+    return this.values[name] ? this.values[name] : defVal;
   }
 
-  getValue(name) {
+  getValue(name, defVal) {
     let vals = this.getValues(name);
-    return vals && vals.length > 0 ? vals[0] : undefined;
+    return vals && vals.length > 0 ? vals[0] : defVal;
   }
 
   getValueAsInt(name) {
