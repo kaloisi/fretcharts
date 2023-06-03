@@ -7,6 +7,7 @@ import SelectBox from './SelectBox';
 import Utils from './utils';
 import GuitarState from './models/GuitarState';
 import Metronome from './Metronome';
+import ChordProgression from './ChordProgression';
 
 
 const SCALE_COLORS = ["#4E79A5", "#F18F3B", "#E0585B", "#77B7B2", "#5AA155", "#EDC958", "#AF7AA0", "#FE9EA8", "#9C7561", "#BAB0AC"];
@@ -19,7 +20,8 @@ class Fretboard extends React.Component {
     this.state = {
       key: Utils.KEYS.C_MAJOR,
       scales: [],
-      guitarState: guitarState
+      guitarState: guitarState,
+      progression: []
     };
   }
 
@@ -60,6 +62,21 @@ class Fretboard extends React.Component {
     });
   }
 
+  getRowNumberForScale(scale) {
+    return this.state.scales.indexOf(scale);
+  }
+
+  addToProgression(scale) {
+    let rowNum = this.getRowNumberForScale(scale);
+    if (rowNum >= 0) {
+      let progression = this.state.progression;
+      progression[progression.length] = rowNum;
+      console.log(progression)
+      this.setState({
+        progression: progression
+      });
+    }
+  }
 
   resolveNotesForScale(scale) {
     const stringNumber = scale.toneState.stringNumber;
@@ -92,7 +109,7 @@ class Fretboard extends React.Component {
     };
 
     const notes2intervals = this.resolveNotesForScale(newScale);
-    console.log(notes2intervals, notes2intervals.keys);
+    //console.log(notes2intervals, notes2intervals.keys);
 
     if (notes2intervals.size > 0) {
       newScale.notes = [];
@@ -107,6 +124,8 @@ class Fretboard extends React.Component {
       this.setState({
          scales: newScales
       });
+
+      this.addToProgression(newScale);
     }
   }
 
@@ -160,7 +179,9 @@ class Fretboard extends React.Component {
           <div className="fret-markers">{fretMarkers}</div>
         </div>
         
-        <Metronome />
+        <ChordProgression scales={this.state.scales} progression={this.state.progression}/>
+
+        <Metronome scales={this.state.scales} />
 
         <div className="scaleTable">
           <div>
@@ -175,11 +196,10 @@ class Fretboard extends React.Component {
                 onDelete={(e) => this.deleteScale(e)}
                 onChange={(scale, newPosition) => this.updatePosition(scale, newPosition)}
                 onCheck={(s) => this.onCheck(s)}
+                addToProgression={(scale) => this.addToProgression(scale)}
                 value={item} />
           ))
-
         }</div>
-        
       </div>
     );
   }

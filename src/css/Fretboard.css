@@ -1,7 +1,6 @@
 
 body {
     background-color: #fae9e2;
-    color: white;
 }
 
 .fret-board {
@@ -118,10 +117,27 @@ button {
     bottom: 0px;
 }
 
-.metronome {
+.progressions {
     margin-top: 3em;
     display: flex;
     flex-direction: row;
     justify-content: center;
 }
 
+.progressions > .pill {
+    margin-left: 1em;
+    padding-left: 1em;
+    padding-right: 1em;
+    font-size: xlarge;
+}
+
+.metronome {
+    margin-top: 1em;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.metronome > .label {
+    margin-right: 2em;
+}

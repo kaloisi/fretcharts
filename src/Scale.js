@@ -3,6 +3,7 @@ import SelectBox from './SelectBox';
 import Utils from './utils';
 
 class Scale extends React.Component {
+   
 
     delete() {
         if (this.props.onDelete) {
@@ -21,6 +22,12 @@ class Scale extends React.Component {
             this.props.onCheck(this.props.value);
         }
     }
+    
+    addToProgression() {
+        if (this.props.addToProgression) {
+            this.props.addToProgression(this.props.value);
+        }   
+    }
 
     render() {
         const url = 'https://onlineguitarbooks.com/' + this.props.value.name + '-chord/';
@@ -29,7 +36,7 @@ class Scale extends React.Component {
             backgroundColor: this.props.value.color
         };
         const options = Utils.getPositionsForString(this.props.value.toneState.stringNumber);
-
+        
         return (
             <div>
                 <div style={style}></div>
@@ -45,8 +52,11 @@ class Scale extends React.Component {
                         options={options}
                         onChange={(e) => this.select(e)}
                     />
-                 </div>
-                <div><button onClick={(e) => this.delete()}>delete</button></div>
+                </div>
+                <div>
+                    <button onClick={(e) => this.delete()}>delete</button>
+                    <button onClick={(e) => this.addToProgression()}>add to chord progression</button>
+                </div>
             </div>
         );
     }

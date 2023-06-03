@@ -7,6 +7,7 @@ export default class Metronome extends React.Component {
         super(props);
         this.state = {
             bpm: 60,
+            bpb: 4,
             playing: false,
             interval: null,
             count: 0,
@@ -38,7 +39,7 @@ export default class Metronome extends React.Component {
                 source.connect(audioCtx.destination); 
                 source.start();
                 this.setState({
-                    count: (this.state.count + 1) % 4
+                    count: (this.state.count + 1)
                 })
             } else if (!mediaLoading) {
                 mediaLoading = true;
@@ -125,11 +126,21 @@ export default class Metronome extends React.Component {
         console.log("BPM = " + newBpm);
     }
 
+    setBpb(e) {
+        this.setState({
+            bpb: e.target.value
+        })
+    }
+
     render() {
         return (
         <div className='metronome'>
+            <input type='number' min={2} max={8} size={6} maxLength={6} defaultValue={ this.state.bpb } onChange={(e) => this.setBpb(e)}/>
+            <div className='label'>Beats per bar</div>
+
             <input type='number' min={1} max={200} size={6} maxLength={6} defaultValue={ this.state.bpm } onChange={(e) => this.setBpm(e)}/>
-            <div>bpm</div>
+            <div className='label'>Beats per minute</div>
+
             <button onClick={(e) => this.startStop()}>{this.state.playing ? 'Stop' : 'Play'}</button>
         </div>
         );
