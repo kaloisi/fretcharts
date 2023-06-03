@@ -8,7 +8,7 @@ import Utils from './utils';
 import GuitarState from './models/GuitarState';
 import Metronome from './Metronome';
 import ChordProgression from './ChordProgression';
-
+import DocParamMap from './DocParamMap.js';
 
 const SCALE_COLORS = ["#4E79A5", "#F18F3B", "#E0585B", "#77B7B2", "#5AA155", "#EDC958", "#AF7AA0", "#FE9EA8", "#9C7561", "#BAB0AC"];
 
@@ -17,13 +17,22 @@ class Fretboard extends React.Component {
     super(props);
     const guitarState = new GuitarState();
 
+    let urlParams = new DocParamMap();
+    let keyName = urlParams.getValue("key");
+
+    console.log(keyName);
+    let key = keyName && Utils.KEYS[keyName] ? Utils.KEYS[keyName] : Utils.KEYS.C_MAJOR;
+
+    console.log("Key: ", keyName, key);
+    
     this.state = {
-      key: Utils.KEYS.C_MAJOR,
+      key: key,
       scales: [],
       guitarState: guitarState,
       progression: []
     };
   }
+
 
   updateKey(newKey) {
     this.setState({
