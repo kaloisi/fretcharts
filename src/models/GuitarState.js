@@ -76,6 +76,7 @@ class ScalePattern {
         this.setPosition(Utils.getDefaultPositionForString(stringNumber));
     }
 
+    
     setPosition(position) {
         // remove references if already set
         if (this.toneStates && this.toneStates.length > 0) {
@@ -87,13 +88,15 @@ class ScalePattern {
         
         // update references 
         this.position = position;
-        let notes = Utils.resolveNotesForScale(this.guitarState, this.fretNum, this.position);
-        this.toneStates = [];
-        notes.forEach((intervalLabel, toneState) => {
-            //console.log("Adding scale to tone:", toneState, intervalLabel);
-            toneState.add(this, intervalLabel);
-            this.toneStates.push(toneState);
-        });
+        if (position) {
+            let notes = Utils.resolveNotesForScale(this.guitarState, this.fretNum, this.position);
+            this.toneStates = [];
+            notes.forEach((intervalLabel, toneState) => {
+                //console.log("Adding scale to tone:", toneState, intervalLabel);
+                toneState.add(this, intervalLabel);
+                this.toneStates.push(toneState);
+            });
+        }
     }
 }
 
@@ -114,6 +117,10 @@ class GuitarState {
     }
 
 
+    deleteScalePattern(scalePattern) {
+        scalePattern.setPosition(undefined);
+        this.scalePatterns = this.scalePatterns.filter(e => e !== scalePattern);
+    }
 
     createScalePatternAt(stringNum, fretNum) {
         let note = this.getNoteAt(stringNum, fretNum);

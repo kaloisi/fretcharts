@@ -53,29 +53,30 @@ class Fretboard extends React.Component {
     };
   }
 
+  reloadGuitarState() {
+    this.setState({
+      guitarState: this.state.guitarState
+    });
+  }
 
+  /** change the key (notes that are highlighted) */
   updateKey(newKey) {
     this.setState({
       key: newKey
     })
   }
 
+  /** delete a scale from the table */
   deleteScale(scale) {
-    let scales = this.state.scales;
-    scale.notes.forEach(n => n.deselect(scale));
-
-    //usedIn = scale.usedIn.filter(n => n.uid !== scale.uid);
-    this.setState({
-      scales: scales.filter(n => n.uid !== scale.uid)
-    });
+    this.state.guitarState.deleteScalePattern(scale);
+    this.reloadGuitarState();
   }
 
+  /** chnage the position for a eventScale position */
   updatePosition(scale, newPosition) {
     console.log("Swap Position", newPosition, scale);
     scale.setPosition(newPosition);
-    this.setState({
-      guitarState: this.state.guitarState
-  });
+    this.reloadGuitarState();
   }
 
   getRowNumberForScale(scale) {
@@ -95,14 +96,14 @@ class Fretboard extends React.Component {
   }
 
 
+  /** add a new ScalePattern when click on bottom 3 strings */
   onNoteClick(toneState) {
     let newScale = this.state.guitarState.createScalePatternAt(toneState.stringNumber, toneState.fret);
     console.log("Scale Added", newScale);
-    this.setState({
-        guitarState: this.state.guitarState
-    });
+    this.reloadGuitarState();
   }
 
+  /** click on/off a particalur scale */
   onCheck(scale) {
     scale.enabled = !scale.enabled;
     this.setState({
