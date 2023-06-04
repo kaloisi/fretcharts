@@ -1,4 +1,3 @@
-import { select } from 'async';
 import React from 'react';
 
 class SelectBox extends React.Component {

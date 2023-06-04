@@ -777,8 +777,19 @@ const Utils = {
 
     resolveNotesForScale: resolveNotesForScale,
     //resolveIntervalLabelForScale: resolveIntervalLabelForScale,
+    /* returns all positions for a string */
     getPositionsForString(string) {
         return Object.values(this.POSITIONS).filter(n => n.rootStringNumber === string);        
+    },
+    /* returns the default position for a string */
+    getDefaultPositionForString(stringNumber) {
+        const availablePositions = this.getPositionsForString(stringNumber);
+
+        if (availablePositions === undefined || availablePositions.length < 1) {
+          return [];
+        }
+
+        return availablePositions.find(n => n.default === true);
     }
 };
 

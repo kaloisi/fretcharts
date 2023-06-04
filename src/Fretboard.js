@@ -8,9 +8,8 @@ import Utils from './utils';
 import GuitarState from './models/GuitarState';
 import Metronome from './Metronome';
 import ChordProgression from './ChordProgression';
-import DocParamMap from './DocParamMap.js';
+import DocParamMap from './models/DocParamMap.js';
 
-const SCALE_COLORS = ["#4E79A5", "#F18F3B", "#E0585B", "#77B7B2", "#5AA155", "#EDC958", "#AF7AA0", "#FE9EA8", "#9C7561", "#BAB0AC"];
 
 class Fretboard extends React.Component {
   constructor(props) {
@@ -19,15 +18,34 @@ class Fretboard extends React.Component {
 
     let urlParams = new DocParamMap();
     let keyName = urlParams.getValue("key");
-
-    console.log(keyName);
     let key = keyName && Utils.KEYS[keyName] ? Utils.KEYS[keyName] : Utils.KEYS.C_MAJOR;
 
-    console.log("Key: ", keyName, key);
+    
+    let savedScales = urlParams.getValues("s");
+    if (savedScales && savedScales.length > 0) {
+      for (let i = 0; i < savedScales.length; i += 1) {
+        if (savedScales[i]) {
+          let args = savedScales[i].split(".");
+          if (args.length === 3) {
+            let stringNum = Number.parseInt(args[0]);
+            let fretNum = Number.parseInt(args[1]);
+            let positionNum = Number.parseInt(args[2]);
+
+            let scalePattern = guitarState.createScalePatternAt(stringNum, fretNum);
+            let positions = Utils.getPositionsForString(stringNum);
+            if (positionNum < positions.length) {
+              scalePattern.setPosition(positions[positionNum]);
+            }
+
+            console.log("Loading Scale ", scalePattern);
+          }
+        }
+      }
+    }
     
     this.state = {
       key: key,
-      scales: [],
+      scales: guitarState.scales,
       guitarState: guitarState,
       progression: [],
       bpm: urlParams.getValue("bpm", 60),
@@ -54,23 +72,10 @@ class Fretboard extends React.Component {
 
   updatePosition(scale, newPosition) {
     console.log("Swap Position", newPosition, scale);
-    let scales = this.state.scales;
-    scale.notes.forEach(n => n.deselect(scale));
-
-    const notes = Utils.resolveNotesForScale(
-      this.state.guitarState,
-      scale.toneState.fret, 
-      newPosition);
-
-    scale.notes = [];
-    notes.forEach((interval, note) => {
-      note.select(scale, interval);
-      scale.notes.push(note);
-    });
-
+    scale.setPosition(newPosition);
     this.setState({
-      scales: scales
-    });
+      guitarState: this.state.guitarState
+  });
   }
 
   getRowNumberForScale(scale) {
@@ -89,55 +94,13 @@ class Fretboard extends React.Component {
     }
   }
 
-  resolveNotesForScale(scale) {
-    const stringNumber = scale.toneState.stringNumber;
-    
-    const availablePositions = Utils.getPositionsForString(stringNumber);
-    if (availablePositions === undefined || availablePositions.length < 1) {
-      return [];
-    }
 
-    const defaultPos = availablePositions.find(n => n.default === true);
-    scale.position = defaultPos ? defaultPos : availablePositions[0];
-    return Utils.resolveNotesForScale(
-      this.state.guitarState,
-      scale.toneState.fret, 
-      scale.position);
-  }
-
-  onClick(toneState) {
-    const newScales = this.state.scales;
-        
-    const color = SCALE_COLORS[newScales.length % SCALE_COLORS.length];
-    let newScale = {
-        uid: "scale." + toneState.stringNumber + "." + toneState.fret + "." + newScales.length,
-        name: toneState.name,
-        fret: toneState.fret,
-        toneState: toneState,
-        scale: Utils.KEYS.C_MAJOR,
-        color: color,
-        enabled: true
-    };
-
-    const notes2intervals = this.resolveNotesForScale(newScale);
-    //console.log(notes2intervals, notes2intervals.keys);
-
-    if (notes2intervals.size > 0) {
-      newScale.notes = [];
-      notes2intervals.forEach((interval, note) => {
-        console.log(note);
-        newScale.notes.push(note);
-        note.select(newScale, interval);
-      });
-      newScales.push(newScale);
-  
-      //console.log(newScales);
-      this.setState({
-         scales: newScales
-      });
-
-      this.addToProgression(newScale);
-    }
+  onNoteClick(toneState) {
+    let newScale = this.state.guitarState.createScalePatternAt(toneState.stringNumber, toneState.fret);
+    console.log("Scale Added", newScale);
+    this.setState({
+        guitarState: this.state.guitarState
+    });
   }
 
   onCheck(scale) {
@@ -163,6 +126,8 @@ class Fretboard extends React.Component {
       fretMarkers.push((<div key={"fretMarker" + i} className="fret-marker">{dots}</div>));
     }
 
+    let scales = this.state.guitarState.scalePatterns;
+    
     return (
       <div>
         <div className="keySelector">
@@ -182,17 +147,17 @@ class Fretboard extends React.Component {
                       key={stringState.uid}
                       musicKey={this.state.key} 
                       value={stringState} 
-                      onClick={(g,f,n) => this.onClick(g, f, n)} 
-                      scales={this.state.scales}
+                      onClick={(g,f,n) => this.onNoteClick(g, f, n)} 
+                      scales={scales}
                   />
             )})
         }
           <div className="fret-markers">{fretMarkers}</div>
         </div>
         
-        <ChordProgression scales={this.state.scales} progression={this.state.progression}/>
+        <ChordProgression scales={scales} progression={this.state.progression}/>
 
-        <Metronome scales={this.state.scales} bpb={this.state.bpb} bpm={this.state.bpm} />
+        <Metronome scales={scales} bpb={this.state.bpb} bpm={this.state.bpm} />
 
         <div className="scaleTable">
           <div>
@@ -202,7 +167,7 @@ class Fretboard extends React.Component {
             <div>...</div>
           </div>
           {
-            this.state.scales.map((item) => (
+            scales.map((item) => (
               <Scale key={item.uid}
                 onDelete={(e) => this.deleteScale(e)}
                 onChange={(scale, newPosition) => this.updatePosition(scale, newPosition)}
