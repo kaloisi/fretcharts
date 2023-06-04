@@ -137,8 +137,10 @@ class Fretboard extends React.Component {
                onChange={(e) => this.updateKey(e)}
                options={allKeys}
                value={this.state.key}/>
-            
+            <Metronome scales={scales} bpb={this.state.bpb} bpm={this.state.bpm} />
         </div>
+        
+        <ChordProgression scales={scales} progression={this.state.progression}/>
 
         <div className="fret-board">{
           this.state.guitarState.strings.map((stringState) => {
@@ -155,10 +157,6 @@ class Fretboard extends React.Component {
           <div className="fret-markers">{fretMarkers}</div>
         </div>
         
-        <ChordProgression scales={scales} progression={this.state.progression}/>
-
-        <Metronome scales={scales} bpb={this.state.bpb} bpm={this.state.bpm} />
-
         <div className="scaleTable">
           <div>
             <div>Color</div>

@@ -27,11 +27,11 @@ class SelectBox extends React.Component {
         });
 
         return (<div className="selectBox">
+            <select onChange={ (e) => this.selectOption(e) } defaultValue={this.state.value.name} >
+                    {children}
+            </select>
             <div className="selectBoxLabel">{this.props.label}</div>
-                <select onChange={ (e) => this.selectOption(e) } defaultValue={this.state.value.name} >
-                        {children}
-                </select>
-            </div>);
+        </div>);
     }
   }
 

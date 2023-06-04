@@ -87,13 +87,13 @@ body {
 
 .selectBox {
     display: inline-block;
-    text-align: center;
-    font-size: larger;
+    justify-content: center;
 }
 
 .selectBoxLabel {
-    display: inline-block;
     padding-right: 1em;
+    padding-left: 0.25em;
+    display: inline-block;
 }
 
 select {
@@ -106,7 +106,26 @@ button {
 
 .keySelector {
     margin: 1em;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }
+
+.keySelector > .selectBox {
+    margin-right: 2em;
+}
+
+.metronome {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.metronome > .label {
+    margin-right: 2em;
+    padding-left: 0.25em;
+}
+
 
 .tuner > svg {
     position: absolute;
@@ -129,15 +148,4 @@ button {
     padding-left: 1em;
     padding-right: 1em;
     font-size: xlarge;
-}
-
-.metronome {
-    margin-top: 1em;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-}
-
-.metronome > .label {
-    margin-right: 2em;
 }
