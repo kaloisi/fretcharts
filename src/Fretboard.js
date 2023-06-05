@@ -53,6 +53,21 @@ class Fretboard extends React.Component {
     };
   }
 
+  onBeatStop() {
+    this.state.guitarState.setActiveScale(undefined);
+    this.reloadGuitarState();
+  }
+
+  onBeatChange(beat, bar) {
+    let scales = this.state.guitarState.scalePatterns;
+    //console.log("Beat = " + beat + ", Bar = " + bar, scales);
+    let idx = bar - 1;
+    if (idx < scales.length) {
+      this.state.guitarState.setActiveScale(scales[idx]);
+      this.reloadGuitarState();
+    }
+  }
+
   reloadGuitarState() {
     this.setState({
       guitarState: this.state.guitarState
@@ -137,7 +152,10 @@ class Fretboard extends React.Component {
             <Metronome scales={scales} 
                bpb={this.state.bpb} 
                bpm={this.state.bpm}
-               progression={this.state.progression} />
+               progression={this.state.progression} 
+               onBeatChange={(beat, bar) => this.onBeatChange(beat,bar)}
+               onStop={() => this.onBeatStop()}
+               />
         </div>
         
         <div className="fret-board">{

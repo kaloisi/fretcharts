@@ -116,7 +116,13 @@ class GuitarState {
         this.scalePatterns = [];
     }
 
-
+    setActiveScale(scale) {
+        for(let i = 0; i < this.scalePatterns.length; i += 1) {
+            let next = this.scalePatterns[i];
+            next.enabled = !scale || next === scale;
+        }
+    }
+    
     deleteScalePattern(scalePattern) {
         scalePattern.setPosition(undefined);
         this.scalePatterns = this.scalePatterns.filter(e => e !== scalePattern);

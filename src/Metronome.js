@@ -30,8 +30,8 @@ export default class Metronome extends React.Component {
             }
 
             if (clickFx) {
-                console.log("" + (this.state.count + 1));
-                console.log(clickFx);
+                //console.log("" + (this.state.count + 1));
+                //console.log(clickFx);
                 // Arrays.keys.foreach(k => {
                 //     console.log(k + "=" + clickFx[k]);
                 // });
@@ -39,8 +39,16 @@ export default class Metronome extends React.Component {
                 source.buffer = clickFx;
                 source.connect(audioCtx.destination); 
                 source.start();
+
+                let count = this.state.count + 1;
+                if (this.props.onBeatChange) {
+                    let beat = Math.floor(count % this.state.bpb) + 1;
+                    let bar = Math.floor(count / this.props.bpb) % this.props.scales.length + 1;
+                    this.props.onBeatChange(beat, bar)
+                }
+
                 this.setState({
-                    count: (this.state.count + 1)
+                    count: count
                 })
             } else if (!mediaLoading) {
                 mediaLoading = true;
@@ -111,6 +119,9 @@ export default class Metronome extends React.Component {
 
     startStop() {
         const newVal = ! this.state.playing;
+        if (!newVal && this.props.onStop) {
+            this.props.onStop();
+        }
         const handle = this.updateInterval(newVal);
         this.setState({
             count: 0,

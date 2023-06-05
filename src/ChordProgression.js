@@ -13,9 +13,8 @@ class ChordProgression extends React.Component {
             prog[prog.length] = scale;
         }
 
-        //console.log("Progression", prog);
+        // console.log("Progression", prog);
         
-
         return prog.map((k,i) => {
             const active = i === currentBar; 
             const style = {
@@ -30,7 +29,7 @@ class ChordProgression extends React.Component {
                 }
             }
             return (<div className="pill" key={'c' + i} style={style}>
-                {k.name} {dots}
+                {k.name + k.position.abr} {dots}
             </div>);
         });
     }
