@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/fretcharts/static/css/main.aa96d66a.chunk.css",
-    "main.js": "/fretcharts/static/js/main.8b2d25cd.chunk.js",
-    "main.js.map": "/fretcharts/static/js/main.8b2d25cd.chunk.js.map",
+    "main.js": "/fretcharts/static/js/main.5c2e7dfe.chunk.js",
+    "main.js.map": "/fretcharts/static/js/main.5c2e7dfe.chunk.js.map",
     "runtime-main.js": "/fretcharts/static/js/runtime-main.5d731fdf.js",
     "runtime-main.js.map": "/fretcharts/static/js/runtime-main.5d731fdf.js.map",
     "static/js/2.f5c1536b.chunk.js": "/fretcharts/static/js/2.f5c1536b.chunk.js",
@@ -15,6 +15,6 @@
     "static/js/runtime-main.5d731fdf.js",
     "static/js/2.f5c1536b.chunk.js",
     "static/css/main.aa96d66a.chunk.css",
-    "static/js/main.8b2d25cd.chunk.js"
+    "static/js/main.5c2e7dfe.chunk.js"
   ]
 }
