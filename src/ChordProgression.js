@@ -13,14 +13,25 @@ class ChordProgression extends React.Component {
             prog[prog.length] = scale;
         }
 
-        console.log("Progression", prog);
+        //console.log("Progression", prog);
+        
+
         return prog.map((k,i) => {
             const active = i === currentBar; 
             const style = {
                 backgroundColor: k.color,
                 opacity: (active) ? 1 : 0.25
             }
-            return (<div className="pill" key={'c' + i} style={style}>{k.name}</div>);
+            let dots = '';
+            if (active) {
+                let beat = (this.props.count % this.props.bpb) + 1;
+                for (let b = 0; b < beat; b += 1) {
+                    dots += '.';
+                }
+            }
+            return (<div className="pill" key={'c' + i} style={style}>
+                {k.name} {dots}
+            </div>);
         });
     }
 
