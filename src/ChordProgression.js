@@ -2,23 +2,11 @@ import React from 'react';
 
 class ChordProgression extends React.Component {
 
-    getBarCount() {
-        let count = 0;
-        // for(let i = 0 ; i < this.props.scales.length; i += 1) {
-        //     count += this.props.scales[i].progression.length;
-        // }
-        return count;
-    }
-
-    getBar() {
-        return 0;
-    }
-
     renderProgression() {
         let prog = [];
-        
         let scales = this.props.scales;
         let progression = this.props.progression;
+        let currentBar = Math.floor(this.props.count / this.props.bpb) % scales.length;
 
         for(let i =0; i < progression.length; i += 1) {
             let scale = scales[ progression[i] ];
@@ -26,13 +14,13 @@ class ChordProgression extends React.Component {
         }
 
         console.log("Progression", prog);
-        let currentBar = this.getBar();
         return prog.map((k,i) => {
+            const active = i === currentBar; 
             const style = {
                 backgroundColor: k.color,
-                opacity: (i === currentBar) ? 1 : 0.25 
+                opacity: (active) ? 1 : 0.25
             }
-            return (<div className='pill' key={'c' + i} style={style}>{k.name}</div>);
+            return (<div className="pill" key={'c' + i} style={style}>{k.name}</div>);
         });
     }
 

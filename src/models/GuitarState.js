@@ -146,6 +146,10 @@ class GuitarState {
         const s = this.strings[stringNumber];
         return s ? s.getNoteAt(fretNumber) : undefined;
     }
+
+    getRowNumberForScale(scale) {
+        return this.scalePatterns.indexOf(scale);
+    }
 }
 
 export default GuitarState;

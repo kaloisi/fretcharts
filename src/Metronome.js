@@ -1,4 +1,5 @@
 import React from 'react';
+import ChordProgression from './ChordProgression';
 
 
 export default class Metronome extends React.Component {
@@ -134,14 +135,25 @@ export default class Metronome extends React.Component {
 
     render() {
         return (
-        <div className='metronome'>
-            <input type='number' min={2} max={8} size={6} maxLength={6} defaultValue={ this.state.bpb } onChange={(e) => this.setBpb(e)}/>
-            <div className='label'>Beats per bar</div>
+        <div>
+            <div className='metronome'>
+                <input type='number' min={2} max={8} size={6} maxLength={6} defaultValue={ this.state.bpb } onChange={(e) => this.setBpb(e)}/>
+                <div className='label'>Beats per bar</div>
 
-            <input type='number' min={1} max={200} size={6} maxLength={6} defaultValue={ this.state.bpm } onChange={(e) => this.setBpm(e)}/>
-            <div className='label'>Beats per minute</div>
+                <input type='number' min={1} max={200} size={6} maxLength={6} defaultValue={ this.state.bpm } onChange={(e) => this.setBpm(e)}/>
+                <div className='label'>Beats per minute</div>
 
-            <button onClick={(e) => this.startStop()}>{this.state.playing ? 'Stop' : 'Play'}</button>
+                <button onClick={(e) => this.startStop()}>{this.state.playing ? 'Stop' : 'Play'}</button>
+
+            </div>
+
+            <ChordProgression
+                scales={this.props.scales} 
+                progression={this.props.progression}
+                count={this.state.count} 
+                bpb={this.state.bpb}
+                bpm={this.state.bpm}
+                />
         </div>
         );
     }

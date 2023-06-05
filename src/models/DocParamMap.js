@@ -49,6 +49,11 @@ class DocParamMap {
     let i = this.getValue(name);
     return i ? Number.parseInt(i) : undefined;
   }
+
+  getValuesAsInts(name, defVal) {
+    let vals = this.getValues(name);
+    return vals ? vals.map(v => Number.parseInt(v)) : defVal;
+  }
 }
 
 export default DocParamMap;

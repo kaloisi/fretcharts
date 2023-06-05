@@ -7,7 +7,6 @@ import SelectBox from './SelectBox';
 import Utils from './utils';
 import GuitarState from './models/GuitarState';
 import Metronome from './Metronome';
-import ChordProgression from './ChordProgression';
 import DocParamMap from './models/DocParamMap.js';
 
 
@@ -43,11 +42,12 @@ class Fretboard extends React.Component {
       }
     }
     
+    let p = urlParams.getValuesAsInts("p", []);
     this.state = {
       key: key,
       scales: guitarState.scales,
       guitarState: guitarState,
-      progression: [],
+      progression: p,
       bpm: urlParams.getValue("bpm", 60),
       bpb: urlParams.getValue("bpb", 4),
     };
@@ -79,16 +79,11 @@ class Fretboard extends React.Component {
     this.reloadGuitarState();
   }
 
-  getRowNumberForScale(scale) {
-    return this.state.scales.indexOf(scale);
-  }
-
   addToProgression(scale) {
-    let rowNum = this.getRowNumberForScale(scale);
+    let rowNum = this.state.guitarState.getRowNumberForScale(scale);
     if (rowNum >= 0) {
       let progression = this.state.progression;
       progression[progression.length] = rowNum;
-      console.log(progression)
       this.setState({
         progression: progression
       });
@@ -137,12 +132,14 @@ class Fretboard extends React.Component {
                label="Key" 
                onChange={(e) => this.updateKey(e)}
                options={allKeys}
-               value={this.state.key}/>
-            <Metronome scales={scales} bpb={this.state.bpb} bpm={this.state.bpm} />
+               value={this.state.key} />
+
+            <Metronome scales={scales} 
+               bpb={this.state.bpb} 
+               bpm={this.state.bpm}
+               progression={this.state.progression} />
         </div>
         
-        <ChordProgression scales={scales} progression={this.state.progression}/>
-
         <div className="fret-board">{
           this.state.guitarState.strings.map((stringState) => {
             return (
