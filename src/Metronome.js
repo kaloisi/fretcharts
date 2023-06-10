@@ -1,5 +1,6 @@
 import React from 'react';
 import ChordProgression from './ChordProgression';
+import Beat from './models/Beat';
 
 
 export default class Metronome extends React.Component {
@@ -9,9 +10,10 @@ export default class Metronome extends React.Component {
         this.state = {
             bpm: this.props.bpm,
             bpb: this.props.bpb,
+            tpb: this.props.tpb,
             playing: false,
             interval: null,
-            count: 0,
+            beat: undefined,
             mediaLoading: false,
             clickFx: undefined,
             audioCtx: undefined
@@ -40,22 +42,26 @@ export default class Metronome extends React.Component {
                 source.connect(audioCtx.destination); 
                 source.start();
 
-                let count = this.state.count + 1;
+                let beat = this.state.beat;
+                if (!beat) {
+                    beat = new Beat(this.state.bpm, this.state.bpb, this.state.tpb)
+                } else {
+                    beat.tick();
+                }
+                
                 if (this.props.onBeatChange) {
-                    let beat = Math.floor(count % this.state.bpb) + 1;
-                    let bar = Math.floor(count / this.props.bpb) % this.props.scales.length + 1;
-                    this.props.onBeatChange(beat, bar)
+                    this.props.onBeatChange(beat)
                 }
 
                 this.setState({
-                    count: count
+                    beat: beat
                 })
             } else if (!mediaLoading) {
                 mediaLoading = true;
                 console.log("Loading Audio Files");
                 const self = this;
                 var request = new XMLHttpRequest();
-                request.open('GET', process.env.PUBLIC_URL + '/mp3/snare.mp3', true);
+                request.open('GET', process.env.PUBLIC_URL + '/mp3/knock.mp3', true);
                 request.responseType = 'arraybuffer';
                 
                 // Decode asynchronously
@@ -108,7 +114,7 @@ export default class Metronome extends React.Component {
         }
 
         if (playing) {
-            let bpmInMs = (60000 / this.state.bpm);
+            let bpmInMs = (60000 / this.state.bpm / this.state.tpb);
             console.log("Running at " + bpmInMs);
             handle = setInterval(() => this.beep(), bpmInMs);
         }
@@ -124,7 +130,7 @@ export default class Metronome extends React.Component {
         }
         const handle = this.updateInterval(newVal);
         this.setState({
-            count: 0,
+            beat: undefined,
             playing: newVal,
             interval: handle
         });
@@ -144,10 +150,31 @@ export default class Metronome extends React.Component {
         })
     }
 
+    setTpb(e) {
+        this.setState({
+            tpb: e.target.value
+        })
+    }
+
+    renderTicks() {
+        let res = [];
+        let beat = this.state.beat;
+        if (beat) {
+            for (let r = 0; r < beat.getTicksPerBeat(); r += 1) {
+                let css = beat.getTick() === r ? "counterOn" : "counterOff";
+                res.push((<div key={"r" + r} className={css}>{beat.getTickLabel(r)}</div>));
+            }
+        }
+        return res;
+    }
+
     render() {
         return (
         <div>
             <div className='metronome'>
+                <input type='number' min={2} max={4} size={6} maxLength={6} defaultValue={ this.state.tpb } onChange={(e) => this.setTpb(e)}/>
+                <div className='label'>Tick per beat</div>
+
                 <input type='number' min={2} max={8} size={6} maxLength={6} defaultValue={ this.state.bpb } onChange={(e) => this.setBpb(e)}/>
                 <div className='label'>Beats per bar</div>
 
@@ -156,12 +183,13 @@ export default class Metronome extends React.Component {
 
                 <button onClick={(e) => this.startStop()}>{this.state.playing ? 'Stop' : 'Play'}</button>
 
+                <div className='counter'> {this.state.beat && this.renderTicks()} </div>
             </div>
 
             <ChordProgression
                 scales={this.props.scales} 
                 progression={this.props.progression}
-                count={this.state.count} 
+                beat={this.state.beat} 
                 bpb={this.state.bpb}
                 bpm={this.state.bpm}
                 />

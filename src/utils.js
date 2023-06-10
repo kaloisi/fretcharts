@@ -101,7 +101,7 @@ const Utils = {
             rootStringNumber: 4,
             name: "1st - Major Triad Arpeggio",
             positionName: "1st",
-            abr: "m",
+            abr: "maj",
             fretOffsets: [
                 [-3, 0],
                 [-2],
@@ -123,7 +123,7 @@ const Utils = {
             rootStringNumber: 4,
             name: "1st - Major 7 Arpeggio",
             positionName: "1st",
-            abr: "m7",
+            abr: "maj7",
             fretOffsets: [
                 [-3, 0],
                 [-3, -2],
@@ -145,7 +145,7 @@ const Utils = {
             rootStringNumber: 4,
             positionName: "1st",
             name: "1st - Dom 7 Arpeggio",
-            abr: "7",
+            abr: "dom7",
             fretOffsets: [
                 [-3, 0],
                 [-2],
@@ -167,7 +167,7 @@ const Utils = {
             rootStringNumber: 4,
             positionName: "1st",
             name: "1st - Minor Triad Arpeggio",
-            abr: "-7",
+            abr: "min7",
             fretOffsets: [
                 [0],
                 [-2, 1],
@@ -189,7 +189,7 @@ const Utils = {
             rootStringNumber: 4,
             positionName: "1st",
             name: "1st - Minor 7 Arpeggio",
-            abr: "-7",
+            abr: "min7",
             fretOffsets: [
                 [0],
                 [-2, 1],
@@ -211,7 +211,7 @@ const Utils = {
             rootStringNumber: 4,
             positionName: "1st",
             name: "1st - Pentatonic (Major)",
-            abr: "m",
+            abr: "maj",
             fretOffsets: [
                 [-3,  0],
                 [-2,  0],
@@ -232,7 +232,7 @@ const Utils = {
             rootStringNumber: 4,
             positionName: "1st",
             name: "1st - Pentatonic (Minor)",
-            abr: "-",
+            abr: "min",
             fretOffsets: [
                 [-2,  0],
                 [-2,  1],
@@ -276,7 +276,7 @@ const Utils = {
             rootStringNumber: 4,
             positionName: "2nd",
             name: "2nd - Major Triad Arpeggio",
-            abr: "m",
+            abr: "maj",
             fretOffsets: [
                 [0],
                 [2],
@@ -299,7 +299,7 @@ const Utils = {
             rootStringNumber: 4,
             positionName: "2nd",
             name: "2nd - Major 7 Arpeggio",
-            abr: "m7",
+            abr: "maj7",
             fretOffsets: [
                 [0 , 4],
                 [2],
@@ -321,7 +321,7 @@ const Utils = {
             rootStringNumber: 4,
             positionName: "2nd",
             name: "2nd - Dom 7 Arpeggio",
-            abr: "7",
+            abr: "dom7",
             fretOffsets: [
                 [0 , 3],
                 [2],
@@ -342,7 +342,7 @@ const Utils = {
             rootStringNumber: 4,
             positionName: "2nd",
             name: "2nd - Minor Triad Arpeggio",
-            abr: "-",
+            abr: "min",
             fretOffsets: [
                 [0],
                 [1],
@@ -363,7 +363,7 @@ const Utils = {
             rootStringNumber: 4,
             positionName: "2nd",
             name: "2nd - Minor 7 Arpeggio",
-            abr: "-7",
+            abr: "min7",
             fretOffsets: [
                 [0 , 3],
                 [1],
@@ -384,7 +384,7 @@ const Utils = {
             rootStringNumber: 4,
             positionName: "2nd",
             name: "2nd - Minor 7 b5 Arpeggio",
-            abr: "-7b5",
+            abr: "min7b5",
             fretOffsets: [
                 [-1 , 3],
                 [1],
@@ -405,7 +405,7 @@ const Utils = {
             rootStringNumber: 4,
             positionName: "2nd",
             name: "2nd - Pentatonic (Major)",
-            abr: "m",
+            abr: "maj",
             fretOffsets: [
                 [ 0, 2],
                 [ 0, 2],
@@ -426,7 +426,7 @@ const Utils = {
             rootStringNumber: 4,
             positionName: "2nd",
             name: "2nd - Pentatonic (Minor)",
-            abr: "-",
+            abr: "min",
             fretOffsets: [
                 [0, 3],
                 [1, 3],
@@ -469,7 +469,7 @@ const Utils = {
             rootStringNumber: 5,
             positionName: "3rd",
             name: "3rd - Major 7 Arpeggio",
-            abr: "m7",
+            abr: "maj7",
             fretOffsets: [
                 [-1, 0],
                 [-3, 0],
@@ -491,7 +491,7 @@ const Utils = {
             rootStringNumber: 5,
             positionName: "3rd",
             name: "3rd - Dom 7 Arpeggio",
-            abr: "7",
+            abr: "dom7",
             fretOffsets: [
                 [-2, 0],
                 [-3, 0],
@@ -513,7 +513,7 @@ const Utils = {
             rootStringNumber: 5,
             positionName: "3rd",
             name: "3rd - Minor 7 Arpeggio",
-            abr: "-7",
+            abr: "min7",
             fretOffsets: [
                 [-2, 0],
                 [0],
@@ -535,7 +535,7 @@ const Utils = {
             rootStringNumber: 5,
             positionName: "3rd",
             name: "3rd - Pentatonic (Major)",
-            abr: "m",
+            abr: "maj",
             fretOffsets: [
                 [-3, 0],
                 [-3, 0],
@@ -556,7 +556,7 @@ const Utils = {
             rootStringNumber: 5,
             positionName: "3rd",
             name: "3rd - Pentatonic (Minor)",
-            abr: "-",
+            abr: "dom",
             fretOffsets: [
                 [-2, 0],
                 [-2, 0],
@@ -600,7 +600,7 @@ const Utils = {
             rootStringNumber: 5,
             positionName: "4th",
             name: "4th - Major 7 Arpeggio",
-            abr: "m7",
+            abr: "maj7",
             fretOffsets: [
                 [-1, 0],
                 [0],
@@ -642,7 +642,7 @@ const Utils = {
             rootStringNumber: 5,
             positionName: "4th",
             name: "4th - Minor 7 Arpeggio",
-            abr: "-7",
+            abr: "min7",
             fretOffsets: [
                 [0, 3],
                 [0, 3],
@@ -663,7 +663,7 @@ const Utils = {
             rootStringNumber: 5,
             positionName: "4th",
             name: "4th - Pentatonic (Minor)",
-            abr: "-",
+            abr: "min",
             fretOffsets: [
                 [ 0,  3],
                 [ 0,  3],
@@ -684,7 +684,7 @@ const Utils = {
             rootStringNumber: 3,
             positionName: "5th",
             name: "5th - Major 7 Scale",
-            abr: "m7",
+            abr: "maj7",
             fretOffsets: [
                 [0, 2, 3],
                 [0, 2, 3],
@@ -706,7 +706,7 @@ const Utils = {
             rootStringNumber: 3,
             positionName: "5th",
             name: "5th - Major 7 Arpeggio",
-            abr: "m7",
+            abr: "maj7",
             fretOffsets: [
                 [2],
                 [2, 3],
@@ -748,7 +748,7 @@ const Utils = {
             rootStringNumber: 3,
             positionName: "5th",
             name: "5th - Minor 7 Arpeggio",
-            abr: "-7",
+            abr: "min7",
             fretOffsets: [
                 [1],
                 [1, 3],
@@ -769,7 +769,7 @@ const Utils = {
             rootStringNumber: 3,
             positionName: "5th",
             name: "5th - Pentatonic (Major)",
-            abr: "m",
+            abr: "maj",
             fretOffsets: [
                 [ 0,  2],
                 [ 0,  3],

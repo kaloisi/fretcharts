@@ -50,6 +50,7 @@ class Fretboard extends React.Component {
       progression: p,
       bpm: urlParams.getValue("bpm", 60),
       bpb: urlParams.getValue("bpb", 4),
+      tpb: urlParams.getValue("tpb", 2)
     };
   }
 
@@ -58,14 +59,13 @@ class Fretboard extends React.Component {
     this.reloadGuitarState();
   }
 
-  onBeatChange(beat, bar) {
+  onBeatChange(beat) {
     let scales = this.state.guitarState.scalePatterns;
-    //console.log("Beat = " + beat + ", Bar = " + bar, scales);
-    let idx = bar - 1;
-    if (idx < scales.length) {
-      this.state.guitarState.setActiveScale(scales[idx]);
-      this.reloadGuitarState();
-    }
+    let idx = beat.getBar();
+    // console.log("Bar = " + beat.getBar() + " Idx=" + idx);
+    let active = scales[idx % scales.length];
+    this.state.guitarState.setActiveScale(active);
+    this.reloadGuitarState();
   }
 
   reloadGuitarState() {
@@ -152,8 +152,9 @@ class Fretboard extends React.Component {
             <Metronome scales={scales} 
                bpb={this.state.bpb} 
                bpm={this.state.bpm}
+               tpb={this.state.tpb}
                progression={this.state.progression} 
-               onBeatChange={(beat, bar) => this.onBeatChange(beat,bar)}
+               onBeatChange={(beat) => this.onBeatChange(beat)}
                onStop={() => this.onBeatStop()}
                />
         </div>

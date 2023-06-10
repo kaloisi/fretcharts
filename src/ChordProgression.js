@@ -2,19 +2,22 @@ import React from 'react';
 
 class ChordProgression extends React.Component {
 
-    renderProgression() {
+
+    getScales() {
         let prog = [];
         let scales = this.props.scales;
         let progression = this.props.progression;
-        let currentBar = Math.floor(this.props.count / this.props.bpb) % scales.length;
-
         for(let i =0; i < progression.length; i += 1) {
             let scale = scales[ progression[i] ];
             prog[prog.length] = scale;
         }
+        return prog;
+    }
 
-        // console.log("Progression", prog);
-        
+    renderProgression() {
+        let prog = this.getScales();
+        let beat = this.props.beat;
+        let currentBar = beat ? beat.getBar() : undefined;
         return prog.map((k,i) => {
             const active = i === currentBar; 
             const style = {
@@ -36,7 +39,9 @@ class ChordProgression extends React.Component {
 
     render() {
       return (
-        <div key="progression" className="progressions">{this.renderProgression()}</div>
+        <div key="progression" className="chordProgressions">
+            <div className="progressions">{this.renderProgression()}</div>
+        </div>
       );
     }
   }

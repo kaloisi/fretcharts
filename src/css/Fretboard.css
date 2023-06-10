@@ -136,14 +136,14 @@ button {
     bottom: 0px;
 }
 
-.progressions {
+.chordProgressions > .progressions {
     margin: 0.5em;
     display: flex;
     flex-direction: row;
     justify-content: center;
 }
 
-.progressions > .pill {
+.chordProgressions > .progressions > .pill {
     padding-left: 1em;
     padding-right: 1em;
     margin-left: 1em;
@@ -153,5 +153,22 @@ button {
     border-color: #555;
     border-width: 1px;
     border-style: solid;
+}
 
+.metronome > .counter {
+    padding-left: 2em;
+}
+
+
+.metronome > .counter > .counterOn {
+    display: inline;
+    font-size: large;
+    color: black
+}
+
+.metronome > .counter > .counterOff {
+    display: inline;
+    color: gray;
+    font-size: large;
+    border-color: #555;
 }
