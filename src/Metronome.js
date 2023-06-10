@@ -11,14 +11,15 @@ export default class Metronome extends React.Component {
             bpm: this.props.bpm,
             bpb: this.props.bpb,
             tpb: this.props.tpb,
+            volume: this.props.volume,
             playing: false,
             interval: null,
             beat: undefined,
             mediaLoading: false,
             clickFx: undefined,
-            audioCtx: undefined
+            audioCtx: undefined,
+            audioOut: undefined
         };
-        
     }
 
     beep() {
@@ -32,29 +33,42 @@ export default class Metronome extends React.Component {
             }
 
             if (clickFx) {
-                //console.log("" + (this.state.count + 1));
-                //console.log(clickFx);
-                // Arrays.keys.foreach(k => {
-                //     console.log(k + "=" + clickFx[k]);
-                // });
                 var source = audioCtx.createBufferSource();
-                source.buffer = clickFx;
-                source.connect(audioCtx.destination); 
-                source.start();
+                var audioOut = this.state.audioOut;
+                if (!audioOut) {
+                    audioOut = audioCtx.createGain();
+                    audioOut.connect(audioCtx.destination);
+                }
 
-                let beat = this.state.beat;
+                var beat = this.state.beat;
                 if (!beat) {
                     beat = new Beat(this.state.bpm, this.state.bpb, this.state.tpb)
                 } else {
                     beat.tick();
                 }
+
+                let gain = (this.state.volume);
+
+                if (beat.getTick() === 0) {
+                    if (beat.getBeat() !== 0) {
+                        gain /= 2;
+                    }
+                } else {
+                    gain /= 4;
+                }
+                //console.log(gain);
+                audioOut.gain.value = gain / 10;
+                source.buffer = clickFx;
+                source.connect(audioOut); 
+                source.start();
                 
                 if (this.props.onBeatChange) {
                     this.props.onBeatChange(beat)
                 }
 
                 this.setState({
-                    beat: beat
+                    beat: beat,
+                    audioOut: audioOut
                 })
             } else if (!mediaLoading) {
                 mediaLoading = true;
@@ -156,6 +170,12 @@ export default class Metronome extends React.Component {
         })
     }
 
+    setVolume(e) {
+        this.setState({
+            volume: e.target.value
+        })
+    }
+
     renderTicks() {
         let res = [];
         let beat = this.state.beat;
@@ -180,6 +200,21 @@ export default class Metronome extends React.Component {
 
                 <input type='number' min={1} max={200} size={6} maxLength={6} defaultValue={ this.state.bpm } onChange={(e) => this.setBpm(e)}/>
                 <div className='label'>Beats per minute</div>
+
+                <select defaultValue={this.state.volume} onChange={(e) => this.setVolume(e)}>
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                    <option>6</option>
+                    <option>7</option>
+                    <option>8</option>
+                    <option>9</option>
+                    <option>10</option>
+                </select>
+                <div className='label'>Volume</div>
+
 
                 <button onClick={(e) => this.startStop()}>{this.state.playing ? 'Stop' : 'Play'}</button>
 

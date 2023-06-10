@@ -17,7 +17,7 @@ class ChordProgression extends React.Component {
     renderProgression() {
         let prog = this.getScales();
         let beat = this.props.beat;
-        let currentBar = beat ? beat.getBar() : undefined;
+        let currentBar = beat ? beat.getBar() % prog.length : undefined;
         return prog.map((k,i) => {
             const active = i === currentBar; 
             const style = {

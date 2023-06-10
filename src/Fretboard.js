@@ -50,7 +50,8 @@ class Fretboard extends React.Component {
       progression: p,
       bpm: urlParams.getValue("bpm", 60),
       bpb: urlParams.getValue("bpb", 4),
-      tpb: urlParams.getValue("tpb", 2)
+      tpb: urlParams.getValue("tpb", 2),
+      volume: urlParams.getValueAsInt("v", 5)
     };
   }
 
@@ -153,6 +154,7 @@ class Fretboard extends React.Component {
                bpb={this.state.bpb} 
                bpm={this.state.bpm}
                tpb={this.state.tpb}
+               volume={this.state.volume}
                progression={this.state.progression} 
                onBeatChange={(beat) => this.onBeatChange(beat)}
                onStop={() => this.onBeatStop()}
