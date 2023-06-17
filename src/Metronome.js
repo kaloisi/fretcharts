@@ -2,6 +2,7 @@ import React from 'react';
 import ChordProgression from './ChordProgression';
 import Beat from './models/Beat';
 import AudioFiles from './models/AudioFiles';
+import SelectBox from './SelectBox';
 
 const audioFiles = AudioFiles;
 
@@ -152,6 +153,12 @@ export default class Metronome extends React.Component {
         })
     }
 
+    updateState(field, value) {
+        let newState = {};
+        newState[field] = value;
+        this.setState(newState);
+    }
+
     setSwing(e) {
         this.setState({
             swing: e.target.value
@@ -160,7 +167,7 @@ export default class Metronome extends React.Component {
 
     setAudioFiles(e) {
         this.setState({
-            audioFiles: audioFiles[e.target.value]
+            audioFiles: e
         })
     }
 
@@ -177,30 +184,44 @@ export default class Metronome extends React.Component {
     }
 
     render() {
+        let beatPerBarOptions = [
+            {value: 2, name:'2'},
+            {value: 3, name:'3'},
+            {value: 4, name:'4'},
+            {value: 5, name:'5'},
+            {value: 6, name:'6'},
+            {value: 8, name:'8'},
+        ];
+
         return (
         <div>
             <div className='metronome'>
-                <input type='number' min={1} max={4} size={6} maxLength={6} defaultValue={ this.state.tpb } onChange={(e) => this.setTpb(e)}/>
                 <div className='label'>Tick per beat</div>
-
-                <input type='checkbox' defaultValue={this.state.swing} disabled={this.state.swing === undefined } onChange={(e) => this.setSwing(e)}/>
+                <input type='number' min={1} max={4} size={6} maxLength={6} defaultValue={ this.state.tpb } onChange={(e) => this.setTpb(e)}/>
+                
                 <div className='label'>Swing</div>
-
-                <input type='number' min={2} max={8} size={6} maxLength={6} defaultValue={ this.state.bpb } onChange={(e) => this.setBpb(e)}/>
+                <input type='checkbox' defaultValue={this.state.swing} disabled={this.state.swing === undefined } onChange={(e) => this.setSwing(e)}/>
+                
                 <div className='label'>Beats per bar</div>
+                <input type='number' min={2} max={8} size={6} maxLength={6} defaultValue={ this.state.bpb } onChange={(e) => this.setBpb(e)}/>
+                
+                <SelectBox label="Beats per bar"
+                    options={beatPerBarOptions}
+                    value={this.state.bpb}
+                    onChange={(e) => this.updateState("bpb" , e.value)}
+                />
 
-                <input type='number' min={1} max={200} size={6} maxLength={6} defaultValue={ this.state.bpm } onChange={(e) => this.setBpm(e)}/>
+
                 <div className='label'>Beats per minute</div>
+                <input type='number' min={1} max={200} size={6} maxLength={6} defaultValue={ this.state.bpm } onChange={(e) => this.setBpm(e)}/>
+                
+                <SelectBox label="Audio"
+                    options={audioFiles}
+                    value={this.state.audioFiles}
+                    onChange={(e) => this.setAudioFiles(e)}
+                />
 
-                <select onChange={(e) => this.setAudioFiles(e)}>
-                { 
-                    audioFiles.map((next, i) => {
-                        return (<option value={i}>{next.name}</option>);
-                    })
-                }
-                </select>
-                <div className='label'>Tones</div>
-
+                <div className='label'>Volume</div>
                 <select defaultValue={this.state.volume} onChange={(e) => this.setVolume(e)}>
                     <option>1</option>
                     <option>2</option>
@@ -213,7 +234,7 @@ export default class Metronome extends React.Component {
                     <option>9</option>
                     <option>10</option>
                 </select>
-                <div className='label'>Volume</div>
+                
 
 
                 <button onClick={(e) => this.startStop()}>{this.state.playing ? 'Stop' : 'Play'}</button>
