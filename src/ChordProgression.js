@@ -7,9 +7,12 @@ class ChordProgression extends React.Component {
         let prog = [];
         let scales = this.props.scales;
         let progression = this.props.progression;
-        for(let i =0; i < progression.length; i += 1) {
-            let scale = scales[ progression[i] ];
-            prog[prog.length] = scale;
+        for(let i =0; i < progression.length ; i += 1) {
+            let pIdx = progression[i];
+            if (pIdx < scales.length) {
+                let scale = scales[pIdx];
+                prog[prog.length] = scale;
+            }
         }
         return prog;
     }

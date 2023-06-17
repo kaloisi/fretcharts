@@ -1,7 +1,9 @@
 import React from 'react';
 import ChordProgression from './ChordProgression';
 import Beat from './models/Beat';
+import AudioFiles from './models/AudioFiles';
 
+const audioFiles = AudioFiles;
 
 export default class Metronome extends React.Component {
 
@@ -11,104 +13,59 @@ export default class Metronome extends React.Component {
             bpm: this.props.bpm,
             bpb: this.props.bpb,
             tpb: this.props.tpb,
+            swing: this.props.tpb === 2 ? false : undefined,
             volume: this.props.volume,
             playing: false,
             interval: null,
             beat: undefined,
-            mediaLoading: false,
-            clickFx: undefined,
             audioCtx: undefined,
-            audioOut: undefined
+            audioOut: undefined,
+            audioFiles: audioFiles[0]
         };
     }
 
     beep() {
         try {
             let audioCtx = this.state.audioCtx;
-            let clickFx = this.state.clickFx;
-            let mediaLoading = this.state.mediaLoading;
-
             if (audioCtx === undefined) {
                 audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             }
 
-            if (clickFx) {
-                var source = audioCtx.createBufferSource();
-                var audioOut = this.state.audioOut;
-                if (!audioOut) {
-                    audioOut = audioCtx.createGain();
-                    audioOut.connect(audioCtx.destination);
-                }
+            var source = audioCtx.createBufferSource();
+            var audioOut = this.state.audioOut;
+            if (!audioOut) {
+                audioOut = audioCtx.createGain();
+                audioOut.connect(audioCtx.destination);
+            }
 
-                var beat = this.state.beat;
-                if (!beat) {
-                    beat = new Beat(this.state.bpm, this.state.bpb, this.state.tpb)
-                } else {
-                    beat.tick();
-                }
-
-                let gain = (this.state.volume);
-
-                if (beat.getTick() === 0) {
-                    if (beat.getBeat() !== 0) {
-                        gain /= 2;
-                    }
-                } else {
-                    gain /= 4;
-                }
-                //console.log(gain);
-                audioOut.gain.value = gain / 10;
-                source.buffer = clickFx;
-                source.connect(audioOut); 
-                source.start();
-                
-                if (this.props.onBeatChange) {
-                    this.props.onBeatChange(beat)
-                }
-
-                this.setState({
-                    beat: beat,
-                    audioOut: audioOut
-                })
-            } else if (!mediaLoading) {
-                mediaLoading = true;
-                console.log("Loading Audio Files");
-                const self = this;
-                var request = new XMLHttpRequest();
-                request.open('GET', process.env.PUBLIC_URL + '/mp3/knock.mp3', true);
-                request.responseType = 'arraybuffer';
-                
-                // Decode asynchronously
-                request.onload = function() {
-                    try {
-                        if (request.status === 200) {
-                            let responseData = request.response;
-                            console.log("Media Loaded: ", request);
-                            audioCtx.decodeAudioData(responseData,
-                                (buffer) => {
-                                    console.log("Buffer Loaded", buffer, self);
-                                    self.setState({
-                                        clickFx: buffer
-                                    });
-                                },
-                                (e) => {
-                                    console.log("Error", e);
-                                });
-                        } else {
-                            console.log("Media Load Failed " + this.response.status);
-                        }
-                    } catch (e) {
-                        console.log("Error", e);
-                    }
-                }
-                request.send();
+            var beat = this.state.beat;
+            if (!beat) {
+                beat = new Beat(this.state.bpm, this.state.bpb, this.state.tpb)
             } else {
-                console.log("media loading");
-                return;
+                beat.tick();
+            }
+
+            let gain = (this.state.volume);
+            if (beat.getTick() === 0) {
+                if (beat.getBeat() !== 0) {
+                    gain /= 2;
+                }
+            } else {
+                gain /= 4;
+            }
+            //console.log(gain);
+            audioOut.gain.value = gain / 10;
+            source.buffer = this.state.audioFiles.getAudioFile(beat.getTickLabel(beat.getTick()));
+            source.connect(audioOut); 
+            source.start();
+            
+            if (this.props.onBeatChange) {
+                this.props.onBeatChange(beat)
             }
 
             this.setState({
-                mediaLoading: mediaLoading,
+                beat: beat,
+                audioOut: audioOut,
                 audioCtx: audioCtx
             });
         } catch(e) {
@@ -120,20 +77,32 @@ export default class Metronome extends React.Component {
         console.log("Done Loading");
     }
 
-    updateInterval(playing) {
-        let handle = this.state.interval;
-        if (handle) {
-            clearInterval(handle);
-            handle = null;
-        }
 
-        if (playing) {
-            let bpmInMs = (60000 / this.state.bpm / this.state.tpb);
-            console.log("Running at " + bpmInMs);
-            handle = setInterval(() => this.beep(), bpmInMs);
+    getNextTickInMs() {
+        let p = 0.75;
+        let tickInMs = (60000 / this.state.bpm);
+        if (this.state.tpb === 2 && this.state.swing && this.state.beat) {
+            if (this.state.beat.getTick() === 0) {
+                tickInMs *= p;
+            } else {
+                tickInMs *= 1 - p;
+            }
+        } else {
+            tickInMs /= this.state.tpb;
         }
+        return tickInMs;
+    }
 
-        return handle;
+    scheduleTick(keepGoing, first) {
+        if (!first) {
+            this.beep();
+        }
+        
+        if (keepGoing) {
+            let nextTickInMs = this.getNextTickInMs();
+            //console.log("Run in: " + nextTickInMs);
+            setTimeout(() => this.scheduleTick(this.state.playing), nextTickInMs);
+        }
     }
 
 
@@ -141,17 +110,20 @@ export default class Metronome extends React.Component {
         const newVal = ! this.state.playing;
         if (!newVal && this.props.onStop) {
             this.props.onStop();
+        } 
+        
+        if (newVal) {
+            this.scheduleTick(newVal, true);
         }
-        const handle = this.updateInterval(newVal);
+
         this.setState({
             beat: undefined,
             playing: newVal,
-            interval: handle
         });
     }
 
     setBpm(e) {
-        const newBpm = e.target.value;
+        const newBpm = Number.parseInt(e.target.value)
         this.setState({
             bpm: newBpm
         });
@@ -160,19 +132,35 @@ export default class Metronome extends React.Component {
 
     setBpb(e) {
         this.setState({
-            bpb: e.target.value
+            bpb: Number.parseInt(e.target.value)
         })
     }
 
     setTpb(e) {
+        let value = Number.parseInt(e.target.value);
+        let enabled = value === 2 ? false : undefined;
+        console.log("New Tpb=" + value + " " + enabled)
         this.setState({
-            tpb: e.target.value
+            tpb: value,
+            swing: enabled
         })
     }
 
     setVolume(e) {
         this.setState({
-            volume: e.target.value
+            volume: Number.parseInt(e.target.value)
+        })
+    }
+
+    setSwing(e) {
+        this.setState({
+            swing: e.target.value
+        })
+    }
+
+    setAudioFiles(e) {
+        this.setState({
+            audioFiles: audioFiles[e.target.value]
         })
     }
 
@@ -192,14 +180,26 @@ export default class Metronome extends React.Component {
         return (
         <div>
             <div className='metronome'>
-                <input type='number' min={2} max={4} size={6} maxLength={6} defaultValue={ this.state.tpb } onChange={(e) => this.setTpb(e)}/>
+                <input type='number' min={1} max={4} size={6} maxLength={6} defaultValue={ this.state.tpb } onChange={(e) => this.setTpb(e)}/>
                 <div className='label'>Tick per beat</div>
+
+                <input type='checkbox' defaultValue={this.state.swing} disabled={this.state.swing === undefined } onChange={(e) => this.setSwing(e)}/>
+                <div className='label'>Swing</div>
 
                 <input type='number' min={2} max={8} size={6} maxLength={6} defaultValue={ this.state.bpb } onChange={(e) => this.setBpb(e)}/>
                 <div className='label'>Beats per bar</div>
 
                 <input type='number' min={1} max={200} size={6} maxLength={6} defaultValue={ this.state.bpm } onChange={(e) => this.setBpm(e)}/>
                 <div className='label'>Beats per minute</div>
+
+                <select onChange={(e) => this.setAudioFiles(e)}>
+                { 
+                    audioFiles.map((next, i) => {
+                        return (<option value={i}>{next.name}</option>);
+                    })
+                }
+                </select>
+                <div className='label'>Tones</div>
 
                 <select defaultValue={this.state.volume} onChange={(e) => this.setVolume(e)}>
                     <option>1</option>

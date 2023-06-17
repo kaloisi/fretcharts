@@ -36,7 +36,7 @@ class Fretboard extends React.Component {
               scalePattern.setPosition(positions[positionNum]);
             }
 
-            console.log("Loading Scale ", scalePattern);
+            //console.log("Loading Scale ", scalePattern);
           }
         }
       }
@@ -48,9 +48,9 @@ class Fretboard extends React.Component {
       scales: guitarState.scales,
       guitarState: guitarState,
       progression: p,
-      bpm: urlParams.getValue("bpm", 60),
-      bpb: urlParams.getValue("bpb", 4),
-      tpb: urlParams.getValue("tpb", 2),
+      bpm: urlParams.getValueAsInt("bpm", 60),
+      bpb: urlParams.getValueAsInt("bpb", 4),
+      tpb: urlParams.getValueAsInt("tpb", 2),
       volume: urlParams.getValueAsInt("v", 5)
     };
   }
