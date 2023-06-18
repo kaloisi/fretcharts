@@ -86,13 +86,14 @@ body {
 }
 
 .selectBox {
-    display: inline-block;
-    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    margin: 1em 1em 0em 0em;
 }
 
 .selectBoxLabel {
-    padding-right: 1em;
-    padding-left: 0.25em;
+    margin-right: 1em;
+    margin-left: 0.25em;
     display: inline-block;
 }
 
@@ -102,6 +103,7 @@ select {
 
 button {
     font-size: 1em;
+    min-width: 75px;
 }
 
 .keySelector {
@@ -157,6 +159,10 @@ button {
 
 .metronome > .counter {
     padding-left: 2em;
+    min-width: 75px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 
 

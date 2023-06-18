@@ -2,7 +2,8 @@ import React from 'react';
 import ChordProgression from './ChordProgression';
 import Beat from './models/Beat';
 import AudioFiles from './models/AudioFiles';
-import SelectBox from './SelectBox';
+import SelectBox from './ui/SelectBox';
+import IntSelectBox from './ui/IntSelectBox';
 
 const audioFiles = AudioFiles;
 
@@ -184,58 +185,47 @@ export default class Metronome extends React.Component {
     }
 
     render() {
-        let beatPerBarOptions = [
-            {value: 2, name:'2'},
-            {value: 3, name:'3'},
-            {value: 4, name:'4'},
-            {value: 5, name:'5'},
-            {value: 6, name:'6'},
-            {value: 8, name:'8'},
-        ];
-
         return (
         <div>
             <div className='metronome'>
-                <div className='label'>Tick per beat</div>
-                <input type='number' min={1} max={4} size={6} maxLength={6} defaultValue={ this.state.tpb } onChange={(e) => this.setTpb(e)}/>
-                
-                <div className='label'>Swing</div>
-                <input type='checkbox' defaultValue={this.state.swing} disabled={this.state.swing === undefined } onChange={(e) => this.setSwing(e)}/>
-                
-                <div className='label'>Beats per bar</div>
-                <input type='number' min={2} max={8} size={6} maxLength={6} defaultValue={ this.state.bpb } onChange={(e) => this.setBpb(e)}/>
-                
-                <SelectBox label="Beats per bar"
-                    options={beatPerBarOptions}
-                    value={this.state.bpb}
-                    onChange={(e) => this.updateState("bpb" , e.value)}
+                <IntSelectBox label="Counting"
+                    options={[1, 2, 3, 4]}
+                    labels={["Quater Notes", "8th Notes", "Triplets" , "16th Notes"]}
+                    value={this.state.tpb}
+                    onChange={(val) => this.updateState("tpb" , val)}
                 />
 
-
-                <div className='label'>Beats per minute</div>
-                <input type='number' min={1} max={200} size={6} maxLength={6} defaultValue={ this.state.bpm } onChange={(e) => this.setBpm(e)}/>
+                <IntSelectBox label="Swing"
+                    options={[true, false]}
+                    labels={["Yes", "No"]}
+                    value={this.state.swing}
+                    onChange={(val) => this.updateState("swing" , val)}
+                />
                 
+                <IntSelectBox label="Beats per Bar"
+                    options={[2,3,4,5,6,8]}
+                    value={this.state.bpb}
+                    onChange={(val) => this.updateState("bpb" , val)}
+                />
+
+                <IntSelectBox label="Beats per minute"
+                    options={[40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140]}
+                    value={this.state.bpb}
+                    onChange={(val) => this.updateState("bpm" , val)}
+                />
+
                 <SelectBox label="Audio"
                     options={audioFiles}
                     value={this.state.audioFiles}
                     onChange={(e) => this.setAudioFiles(e)}
                 />
 
-                <div className='label'>Volume</div>
-                <select defaultValue={this.state.volume} onChange={(e) => this.setVolume(e)}>
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                    <option>6</option>
-                    <option>7</option>
-                    <option>8</option>
-                    <option>9</option>
-                    <option>10</option>
-                </select>
-                
-
+                <IntSelectBox label="Volume"
+                    options={[4,10]}
+                    labels={["Low", "High"]}
+                    value={this.state.volume}
+                    onChange={(val) => this.updateState("volume" , val)}
+                />
 
                 <button onClick={(e) => this.startStop()}>{this.state.playing ? 'Stop' : 'Play'}</button>
 

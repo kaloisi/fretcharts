@@ -1,5 +1,5 @@
 import React from 'react';
-import SelectBox from './SelectBox';
+import SelectBox from './ui/SelectBox';
 import Utils from './utils';
 
 class Scale extends React.Component {

@@ -3,7 +3,7 @@ import './css/Fretboard.css';
 import React from 'react';
 import GuitarString from './GuitarString.js';
 import Scale from './Scale.js';
-import SelectBox from './SelectBox';
+import SelectBox from './ui/SelectBox';
 import Utils from './utils';
 import GuitarState from './models/GuitarState';
 import Metronome from './Metronome';
@@ -51,7 +51,7 @@ class Fretboard extends React.Component {
       bpm: urlParams.getValueAsInt("bpm", 60),
       bpb: urlParams.getValueAsInt("bpb", 4),
       tpb: urlParams.getValueAsInt("tpb", 2),
-      volume: urlParams.getValueAsInt("v", 5)
+      volume: urlParams.getValueAsInt("v", 10)
     };
   }
 
