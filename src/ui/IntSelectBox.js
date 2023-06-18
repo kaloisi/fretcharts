@@ -15,7 +15,7 @@ class IntSelectBox extends React.Component {
         this.state = {}
         this.state.options = createOptions(props.options, props.labels);
         this.state.value = this.state.options.find(i => i.value === props.value);
-        console.log(this.state);
+        //console.log(this.state);
     }
 
     selectOption(e) {

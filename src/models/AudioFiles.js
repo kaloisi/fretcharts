@@ -11,17 +11,17 @@ function fetchAudio(name, callback) {
         try {
             if (request.status === 200) {
                 let responseData = request.response;
-                console.log("Media Loaded: ", request);
+                //console.log("Media Loaded: ", request);
                 audioCtx.decodeAudioData(responseData,
                     (buffer) => {
-                        console.log("Buffer Loaded", buffer);
+                        //console.log("Buffer Loaded", buffer);
                         callback(name, buffer);
                     },
                     (e) => {
                         console.log("Error", e);
                     });
             } else {
-                console.log("Media Load Failed " + this.response.status);
+                //console.log("Media Load Failed " + this.response.status);
             }
         } catch (e) {
             console.log("Error", e);
@@ -60,7 +60,8 @@ class AudioFiles {
 
 
     getAudioFile(name) {
-        return this.files[name];
+        let snd = this.files[name];
+        return snd ? snd : this.files['*'];
     }
 }
 
@@ -83,40 +84,8 @@ const AudioLib = Array.of(
             '-TRIP': 'trip',
             '-LET': 'let'
     }),
-    new AudioFiles(
-        "Snare",
-        {
-        '1': 'snare',
-        '2': 'snare',
-        '3': 'snare',
-        '4': 'snare',
-        '5': 'snare',
-        '6': 'snare',
-        '7': 'snare',
-        '8': 'snare',
-        '-E': 'snare',
-        '-AND': 'snare',
-        '-UH': 'snare',
-        '-TRIP': 'snare',
-        '-LET': 'snare'
-    }),
-    new AudioFiles(
-        "Woodblock",
-        {
-        '1': 'knock',
-        '2': 'knock',
-        '3': 'knock',
-        '4': 'knock',
-        '5': 'knock',
-        '6': 'knock',
-        '7': 'knock',
-        '8': 'knock',
-        '-E': 'knock',
-        '-AND': 'knock',
-        '-UH': 'knock',
-        '-TRIP': 'knock',
-        '-LET': 'knock'
-    })
+    new AudioFiles("Snare", { '*': 'snare'}),
+    new AudioFiles("Woodblock", { '*': 'snare'}),
 );
 
 export default AudioLib;

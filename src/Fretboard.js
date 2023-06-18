@@ -51,7 +51,7 @@ class Fretboard extends React.Component {
       bpm: urlParams.getValueAsInt("bpm", 60),
       bpb: urlParams.getValueAsInt("bpb", 4),
       tpb: urlParams.getValueAsInt("tpb", 2),
-      volume: urlParams.getValueAsInt("v", 10)
+      volume: urlParams.getValueAsInt("v", 6)
     };
   }
 
