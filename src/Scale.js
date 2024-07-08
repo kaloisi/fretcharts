@@ -1,6 +1,9 @@
 import React from 'react';
 import SelectBox from './ui/SelectBox';
 import Utils from './utils';
+import TableRow from '@mui/material/TableRow';
+import { TableCell } from '@mui/material';
+import Button from './ui/Button';
 
 class Scale extends React.Component {
    
@@ -38,26 +41,32 @@ class Scale extends React.Component {
         const options = Utils.getPositionsForString(this.props.value.toneState.stringNumber);
         
         return (
-            <div>
-                <div style={style}></div>
-                <div>
+            <TableRow>
+                <TableCell style={style}></TableCell>
+                <TableCell>
                     <input type="checkbox" checked={this.props.value.enabled} onChange={(e) => this.onCheck(e)}/>
                     <a href={url} target="_blank" rel="noreferrer">
                     {this.props.value.name} ({this.props.value.toneState.stringNumber + 1}, {this.props.value.toneState.fret})
                     </a>
-                </div>
-                <div>
+                </TableCell>
+                <TableCell>
                     <SelectBox
                         value={this.props.value.position}
                         options={options}
                         onChange={(e) => this.select(e)}
                     />
-                </div>
-                <div>
-                    <button onClick={(e) => this.delete()}>delete</button>
-                    <button onClick={(e) => this.addToProgression()}>add to chord progression</button>
-                </div>
-            </div>
+                </TableCell>
+                <TableCell>
+                    <Button 
+                        onClick={(e) => this.delete()}
+                        label="Delete"
+                        />
+                    <Button 
+                        onClick={(e) => this.addToProgression()}
+                        label="Add to chord progression"
+                        />
+                </TableCell>
+            </TableRow>
         );
     }
 }

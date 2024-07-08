@@ -1,6 +1,6 @@
 import React from 'react';
 
-const CENTER = {x: 50, y: 50};
+const CENTER = {x: 30, y: 30};
 
 
 class Note extends React.Component {
@@ -51,7 +51,7 @@ class Note extends React.Component {
       
       const scaleCount = this.props.scales.length;
       const textColor = this.props.isInKey ? "black" : "#ccc";
-      const radius = 20;
+      const radius = 12;
       const pieSizeInDegs = scaleCount > 0 ? 360 / scaleCount : 0;
       const isUse = this.state.toneState.usedIn.size > 0;
       let pos = 0;
@@ -80,7 +80,7 @@ class Note extends React.Component {
                                     opacity={nextScale.enabled ? 1.0 : 0.25 } 
                                     stroke="black" 
                                     d={this.createLinesAlongCurve(startDeg, endDeg, radius * 2)} />
-                              <text x={CENTER.x + p.x} y={CENTER.y + p.y} fontSize="16" 
+                              <text x={CENTER.x + p.x} y={CENTER.y + p.y} fontSize="10" 
                                     stroke={nextScale.enabled ? "white" : "black" } 
                                     dominantBaseline="central" 
                                     textAnchor="middle">{intLabel}</text>
@@ -96,7 +96,7 @@ class Note extends React.Component {
                 
                 <text key={this.props.id + "text"} x={CENTER.x} y={CENTER.y} 
                     fill={textColor}
-                    fontSize="20"
+                    fontSize="12"
                     dominantBaseline="central" textAnchor="middle">{this.props.value.name}</text>
             </svg>
           </div>);

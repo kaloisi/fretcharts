@@ -75,12 +75,12 @@ class AudioRepo {
                 }
 
                 
-                for (let channel = 0; channel < next.numberOfChannels; channel++) {
+                for (let channel = 0; channel < next.numberOfChannels; channel += 1) {
                     const toBuff = dest.getChannelData(channel);
                     const fromBuff = next.getChannelData(channel);
 
-                    for (let i = 0; i < toBuff.length && i < fromBuff.length; i++) {
-                      toBuff[i] = fromBuff[i];
+                    for (let i = 0; i < toBuff.length && i < fromBuff.length; i += 1) {
+                      toBuff[i] += fromBuff[i];
                     }
                   }
             }
@@ -115,31 +115,24 @@ const FILES = new AudioRepo([
     ], 
     (self) => {
         console.log("Complete", self);
-        self.mergeAs('drum-set-1-3', ['drum-set-hi-hat', 'drum-set-base']);
+        self.mergeAs('drum-set-1-3', ['drum-set-base','drum-set-hi-hat']);
         self.mergeAs('drum-set-2-4', ['drum-set-hi-hat', 'drum-set-snare']);
+        self.mergeAs('drum-set-1-knock', ['drum-set-base','drum-set-hi-hat', 'knock']);
+
+        // rock beat with snoop
+        self.mergeAs('snoop-drum-1', ['drum-set-1-3', "one"]);
+        self.mergeAs('snoop-drum-2', ['drum-set-2-4' /*, "two" */]);
+        self.mergeAs('snoop-drum-3', ['drum-set-1-3' /*, "three" */]);
+        self.mergeAs('snoop-drum-4', ['drum-set-2-4' /* , "four" */]);
+        self.mergeAs('snoop-drum-5', ['drum-set-1-3' /*, "five" */]);
+        self.mergeAs('snoop-drum-6', ['drum-set-2-4' /*, "six" */]);
+        self.mergeAs('snoop-drum-7', ['drum-set-1-3' /*/, "seven" */]);
+        self.mergeAs('snoop-drum-8', ['drum-set-2-4' /*, "eight" */]);
     }
 );
 
 const AudioLib = Array.of(
-    new AudioFiles(
-        "Snoop Dogg",
-        {
-            '1': 'one',
-            '2': 'two',
-            '3': 'three',
-            '4': 'four',
-            '5': 'five',
-            '6': 'six',
-            '7': 'seven',
-            '8': 'eight',
-            '-E': 'eee',
-            '-AND': 'and',
-            '-UH': 'uh',
-            '-TRIP': 'trip',
-            '-LET': 'let'
-    }),
-    new AudioFiles(
-        "Rock Beat",
+    new AudioFiles("Rock Beats",
         {
             '1': 'drum-set-1-3',
             '3': 'drum-set-1-3',
@@ -157,6 +150,61 @@ const AudioLib = Array.of(
             // '-UH': 'knock',
             // '-TRIP': 'knock',
             // '-LET': 'knock'
+    }),
+    new AudioFiles("Rock - knock on one",
+        {
+            '1': 'drum-set-1-knock',
+            '3': 'drum-set-1-3',
+            '5': 'drum-set-1-3',
+            '7': 'drum-set-1-3',
+
+            '2': 'drum-set-2-4',
+            '4': 'drum-set-2-4',
+            '6': 'drum-set-2-4',
+            '8': 'drum-set-2-4',
+
+            '*': 'drum-set-hi-hat'
+            // '-E': 'knock',
+            // '-AND': 'knock',
+            // '-UH': 'knock',
+            // '-TRIP': 'knock',
+            // '-LET': 'knock'
+    }),
+    new AudioFiles(
+        "Snoop Beat",
+        {
+            '1': 'snoop-drum-1',
+            '2': 'snoop-drum-2',
+            '3': 'snoop-drum-3',
+            '4': 'snoop-drum-4',
+            '5': 'snoop-drum-5',
+            '6': 'snoop-drum-6',
+            '7': 'snoop-drum-7',
+            '8': 'snoop-drum-8',
+
+            '*': 'drum-set-hi-hat'
+            // '-E': 'knock',
+            // '-AND': 'knock',
+            // '-UH': 'knock',
+            // '-TRIP': 'knock',
+            // '-LET': 'knock'
+    }),
+    new AudioFiles(
+        "Snoop Dogg",
+        {
+            '1': 'one',
+            '2': 'two',
+            '3': 'three',
+            '4': 'four',
+            '5': 'five',
+            '6': 'six',
+            '7': 'seven',
+            '8': 'eight',
+            '-E': 'eee',
+            '-AND': 'and',
+            '-UH': 'uh',
+            '-TRIP': 'trip',
+            '-LET': 'let'
     }),
     new AudioFiles("Snare", { '*': 'snare'}),
     new AudioFiles("Woodblock", { '*': 'knock'}),

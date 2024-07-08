@@ -8,6 +8,12 @@ import Utils from './utils';
 import GuitarState from './models/GuitarState';
 import Metronome from './Metronome';
 import DocParamMap from './models/DocParamMap.js';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
 
 
 class Fretboard extends React.Component {
@@ -51,7 +57,7 @@ class Fretboard extends React.Component {
       bpm: urlParams.getValueAsInt("bpm", 60),
       bpb: urlParams.getValueAsInt("bpb", 4),
       tpb: urlParams.getValueAsInt("tpb", 2),
-      volume: urlParams.getValueAsInt("v", 6)
+      volume: urlParams.getValueAsInt("v", 4)
     };
   }
 
@@ -137,7 +143,6 @@ class Fretboard extends React.Component {
 
       fretMarkers.push((<div key={"fretMarker" + i} className="fret-marker">{dots}</div>));
     }
-
     let scales = this.state.guitarState.scalePatterns;
     
     return (
@@ -176,13 +181,17 @@ class Fretboard extends React.Component {
           <div className="fret-markers">{fretMarkers}</div>
         </div>
         
-        <div className="scaleTable">
-          <div>
-            <div>Color</div>
-            <div>Root</div>
-            <div>Position</div>
-            <div>...</div>
-          </div>
+        <TableContainer>
+          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+                <TableCell>Color</TableCell>
+                <TableCell>Root</TableCell>
+                <TableCell>Position</TableCell>
+                <TableCell>...</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
           {
             scales.map((item) => (
               <Scale key={item.uid}
@@ -192,7 +201,9 @@ class Fretboard extends React.Component {
                 addToProgression={(scale) => this.addToProgression(scale)}
                 value={item} />
           ))
-        }</div>
+          }
+          </TableBody>
+          </Table></TableContainer>
       </div>
     );
   }

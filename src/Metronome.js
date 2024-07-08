@@ -4,6 +4,7 @@ import Beat from './models/Beat';
 import AudioFiles from './models/AudioFiles';
 import SelectBox from './ui/SelectBox';
 import IntSelectBox from './ui/IntSelectBox';
+import Button from './ui/Button';
 
 const audioFiles = AudioFiles;
 
@@ -210,7 +211,7 @@ export default class Metronome extends React.Component {
 
                 <IntSelectBox label="Beats per minute"
                     options={[40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140]}
-                    value={this.state.bpb}
+                    value={this.state.bpm}
                     onChange={(val) => this.updateState("bpm" , val)}
                 />
 
@@ -227,8 +228,12 @@ export default class Metronome extends React.Component {
                     onChange={(val) => this.updateState("volume" , val)}
                 />
 
-                <button onClick={(e) => this.startStop()}>{this.state.playing ? 'Stop' : 'Play'}</button>
-
+                
+                <Button 
+                    onClick={(e) => this.startStop()}
+                    label={this.state.playing ? 'Stop' : 'Play'}
+                />
+                
                 <div className='counter'> {this.state.beat && this.renderTicks()} </div>
             </div>
 

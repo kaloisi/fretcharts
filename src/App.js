@@ -1,11 +1,21 @@
-import './css/App.css';
 import Fretboard from './Fretboard.js';
+
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+
+const myTheme = createTheme({
+  palette: {
+    mode: 'light',
+  },
+});
+
 
 function App() {
   return (
-    <div className="App">
+    <ThemeProvider theme={myTheme}>
+      <CssBaseline />
       <Fretboard key="fretboard"/>
-    </div>
+    </ThemeProvider>
   );
 }
 

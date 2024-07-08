@@ -1,15 +1,9 @@
 
-body {
-    background-color: #fae9e2;
-}
-
 .fret-board {
     display: table;
     table-layout: fixed;
-    border-spacing: 0px 5px;
-    width: 100%;
+    border-spacing: 0px 2px;
     border-collapse: collapse;
-    background-color: #fae9e2;
 }
 
 .note {
@@ -17,16 +11,13 @@ body {
     margin: 3px 3px;
     text-align: center;
     cursor: pointer;
-    color: black;
-    background-color: #fae9e2;
-    font-size: large;
-    width: 100px;
+    width: 60px;
     border-right: 2px solid black;
 }
 
 .note svg {
-    width: 100px;
-    height: 100px;
+    width: 60px;
+    height: 60px;
 }
 
 .string {
@@ -39,7 +30,6 @@ body {
 
 .string > .note:first-child {
     border-radius: 0%;
-    background-color: #fae9e2;
     border-right: 6px solid black;
 }
 
@@ -62,11 +52,9 @@ body {
     text-align: center;
     border-bottom: solid 1px #aaa;
     border-left: solid 1px #aaa;
-    background-color:#ccc;
 }
 
 .scaleTable > div:first-child > div {
-    background-color: #666;
     border: solid 1px #555;
 }
 
@@ -77,33 +65,11 @@ body {
 .fret-marker {
     display: table-cell;
     text-align: center;
-    color: black;
     width: 50px;
 }
 
 .fret-spacer {
     background: linear-gradient(90deg, rgba(60,40,32,1) 45%, rgba(170,170,170,1) 50%, rgba(60,40,32,1) 55%);
-}
-
-.selectBox {
-    display: flex;
-    flex-direction: column;
-    margin: 1em 1em 0em 0em;
-}
-
-.selectBoxLabel {
-    margin-right: 1em;
-    margin-left: 0.25em;
-    display: inline-block;
-}
-
-select {
-    font-size: 1em;
-}
-
-button {
-    font-size: 1em;
-    min-width: 75px;
 }
 
 .keySelector {
@@ -115,12 +81,6 @@ button {
 
 .keySelector > .selectBox {
     margin-right: 2em;
-}
-
-.metronome {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
 }
 
 .metronome > .label {
