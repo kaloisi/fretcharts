@@ -3,10 +3,9 @@ import './css/Fretboard.css';
 import React from 'react';
 import GuitarString from './GuitarString.js';
 import Scale from './Scale.js';
-import SelectBox from './ui/SelectBox';
 import Utils from './utils';
 import GuitarState from './models/GuitarState';
-import Metronome from './Metronome';
+import ControlPanel from './ControlPanel';
 import DocParamMap from './models/DocParamMap.js';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -24,7 +23,6 @@ class Fretboard extends React.Component {
     let urlParams = new DocParamMap();
     let keyName = urlParams.getValue("key");
     let key = keyName && Utils.KEYS[keyName] ? Utils.KEYS[keyName] : Utils.KEYS.C_MAJOR;
-
     
     let savedScales = urlParams.getValues("s");
     if (savedScales && savedScales.length > 0) {
@@ -69,14 +67,18 @@ class Fretboard extends React.Component {
   onBeatChange(beat) {
     let scales = this.state.guitarState.scalePatterns;
     let idx = beat.getBar();
-    // console.log("Bar = " + beat.getBar() + " Idx=" + idx);
+    //console.log("Bar = " + beat.getBar() + " Idx=" + idx);
     let active = scales[idx % scales.length];
     this.state.guitarState.setActiveScale(active);
-    this.reloadGuitarState();
+    this.setState({
+      beat: beat,
+      guitarState: this.state.guitarState
+    });
   }
 
   reloadGuitarState() {
     this.setState({
+      beat: this.state.beat,
       guitarState: this.state.guitarState
     });
   }
@@ -130,8 +132,7 @@ class Fretboard extends React.Component {
 
   render() {
     const fretCount = this.state.guitarState.strings[0].tones.length;
-    const allKeys = Object.values(Utils.KEYS);
-
+    
     const fretMarkers = [];
     for(let i=0; i < fretCount; i++) {
       let dots = "";
@@ -147,29 +148,24 @@ class Fretboard extends React.Component {
     
     return (
       <div>
-        <div className="keySelector">
-            <SelectBox 
-               key="keySelector"
-               label="Key" 
-               onChange={(e) => this.updateKey(e)}
-               options={allKeys}
-               value={this.state.key} />
-
-            <Metronome scales={scales} 
-               bpb={this.state.bpb} 
-               bpm={this.state.bpm}
-               tpb={this.state.tpb}
-               volume={this.state.volume}
-               progression={this.state.progression} 
-               onBeatChange={(beat) => this.onBeatChange(beat)}
-               onStop={() => this.onBeatStop()}
-               />
-        </div>
+        <ControlPanel 
+            scales={scales} 
+            musicKey={this.state.key}
+            bpb={this.state.bpb} 
+            bpm={this.state.bpm}
+            tpb={this.state.tpb}
+            volume={this.state.volume}
+            progression={this.state.progression} 
+            onBeatChange={(beat) => this.onBeatChange(beat)}
+            onStop={() => this.onBeatStop()}
+            onKeyChange={key => this.updateKey(key)}
+            />
         
         <div className="fret-board">{
           this.state.guitarState.strings.map((stringState) => {
             return (
                   <GuitarString 
+                      beat={this.state.beat}
                       key={stringState.uid}
                       musicKey={this.state.key} 
                       value={stringState} 
@@ -177,12 +173,12 @@ class Fretboard extends React.Component {
                       scales={scales}
                   />
             )})
-        }
+            }
           <div className="fret-markers">{fretMarkers}</div>
         </div>
-        
+
         <TableContainer>
-          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <Table size="small" sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
                 <TableCell>Color</TableCell>
@@ -203,7 +199,10 @@ class Fretboard extends React.Component {
           ))
           }
           </TableBody>
-          </Table></TableContainer>
+          </Table>
+          </TableContainer>
+
+          
       </div>
     );
   }

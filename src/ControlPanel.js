@@ -1,18 +1,22 @@
 import React from 'react';
+import Utils from './utils';
 import ChordProgression from './ChordProgression';
 import Beat from './models/Beat';
 import AudioFiles from './models/AudioFiles';
 import SelectBox from './ui/SelectBox';
 import IntSelectBox from './ui/IntSelectBox';
+import ButtonGroup from '@mui/material/ButtonGroup';
 import Button from './ui/Button';
-
+import { Stack } from '@mui/material';
 const audioFiles = AudioFiles;
 
 export default class Metronome extends React.Component {
 
     constructor(props) {
         super(props);
+        console.log(this.props.musicKey);
         this.state = {
+            musicKey: this.props.musicKey,
             bpm: this.props.bpm,
             bpb: this.props.bpb,
             tpb: this.props.tpb,
@@ -167,6 +171,12 @@ export default class Metronome extends React.Component {
         })
     }
 
+    setKey(key) {
+        if (this.props.onKeyChange) {
+            this.props.onKeyChange(key);
+        }
+    }
+
     setAudioFiles(e) {
         this.setState({
             audioFiles: e
@@ -179,16 +189,24 @@ export default class Metronome extends React.Component {
         if (beat) {
             for (let r = 0; r < beat.getTicksPerBeat(); r += 1) {
                 let css = beat.getTick() === r ? "counterOn" : "counterOff";
-                res.push((<div key={"r" + r} className={css}>{beat.getTickLabel(r)}</div>));
+                res.push((<span key={"r" + r} className={css}>{beat.getTickLabel(r)}</span>));
             }
         }
         return res;
     }
 
     render() {
+        const allKeys = Object.values(Utils.KEYS);
         return (
-        <div>
-            <div className='metronome'>
+        <Stack component="section" alignItems="center">
+            <ButtonGroup variant="contained" size="small">
+                <SelectBox 
+                    key="keySelector"
+                    label="Key" 
+                    onChange={(e) => this.setKey(e)}
+                    options={allKeys}
+                    value={this.state.musicKey} />
+
                 <IntSelectBox label="Counting"
                     options={[1, 2, 3, 4]}
                     labels={["Quater Notes", "8th Notes", "Triplets" , "16th Notes"]}
@@ -227,7 +245,6 @@ export default class Metronome extends React.Component {
                     value={this.state.volume}
                     onChange={(val) => this.updateState("volume" , val)}
                 />
-
                 
                 <Button 
                     onClick={(e) => this.startStop()}
@@ -235,7 +252,7 @@ export default class Metronome extends React.Component {
                 />
                 
                 <div className='counter'> {this.state.beat && this.renderTicks()} </div>
-            </div>
+            </ButtonGroup>
 
             <ChordProgression
                 scales={this.props.scales} 
@@ -244,7 +261,7 @@ export default class Metronome extends React.Component {
                 bpb={this.state.bpb}
                 bpm={this.state.bpm}
                 />
-        </div>
+        </Stack>
         );
     }
 }

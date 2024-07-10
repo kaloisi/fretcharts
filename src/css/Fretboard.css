@@ -4,6 +4,7 @@
     table-layout: fixed;
     border-spacing: 0px 2px;
     border-collapse: collapse;
+    background-color: #2A0001;
 }
 
 .note {
@@ -12,12 +13,32 @@
     text-align: center;
     cursor: pointer;
     width: 60px;
-    border-right: 2px solid black;
+    border-right: 1px solid silver;
 }
 
 .note svg {
     width: 60px;
     height: 60px;
+}
+
+.inKey circle.centerCircle {
+    fill: ivory;
+}
+
+.inKey text.centerLabel {
+    font-size: 12pt;
+    color: black;
+}
+
+.outOfKey circle.centerCircle {
+    fill: #2A0001;
+    stroke: ivory;
+}
+
+.outOfKey text.centerLabel {
+    font-size: 12pt;
+    fill: ivory;
+    opacity: 0.15;
 }
 
 .string {
@@ -31,31 +52,6 @@
 .string > .note:first-child {
     border-radius: 0%;
     border-right: 6px solid black;
-}
-
-.scaleTable {
-    display: table;
-    margin-left: 10%;
-    width: 80%;
-    margin-top: 2em;
-    border-top: solid 1px #aaa;
-    border-right: solid 1px #aaa;
-    color: black;
-}
-
-.scaleTable > div {
-    display: table-row;    
-}
-
-.scaleTable > div > div {
-    display: table-cell;
-    text-align: center;
-    border-bottom: solid 1px #aaa;
-    border-left: solid 1px #aaa;
-}
-
-.scaleTable > div:first-child > div {
-    border: solid 1px #555;
 }
 
 .fret-markers {
@@ -72,22 +68,10 @@
     background: linear-gradient(90deg, rgba(60,40,32,1) 45%, rgba(170,170,170,1) 50%, rgba(60,40,32,1) 55%);
 }
 
-.keySelector {
-    margin: 1em;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-}
-
-.keySelector > .selectBox {
-    margin-right: 2em;
-}
-
 .metronome > .label {
     margin-left: 2em;
     padding-right: 0.25em;
 }
-
 
 .tuner > svg {
     position: absolute;
@@ -117,24 +101,24 @@
     border-style: solid;
 }
 
-.metronome > .counter {
+.counter {
     padding-left: 2em;
-    min-width: 75px;
+    padding-right: 2em;
     display: flex;
     flex-direction: row;
     align-items: center;
 }
 
 
-.metronome > .counter > .counterOn {
+.counter > .counterOn {
     display: inline;
     font-size: large;
-    color: black
+    color: white;
+    font-weight: bold;
 }
 
-.metronome > .counter > .counterOff {
+.counter > .counterOff {
     display: inline;
-    color: gray;
+    color: #555;
     font-size: large;
-    border-color: #555;
 }

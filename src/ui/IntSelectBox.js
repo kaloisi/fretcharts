@@ -2,7 +2,7 @@ import React from 'react';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Select from '@mui/material/Select';
 
 function createOptions(values, labels) {
     return values.map((val, idx) => {
@@ -22,7 +22,7 @@ class IntSelectBox extends React.Component {
         //console.log(this.state);
     }
 
-    selectOption(e: SelectChangeEvent) {
+    selectOption(e) {
         const label = e.target.value;
         const newValue = this.state.options.find(
             next => {
@@ -38,10 +38,9 @@ class IntSelectBox extends React.Component {
 
     render() {
         const children = [];
-
-        this.state.options.forEach(element => {
+        this.state.options.forEach((element, i) => {
             children.push((
-                <MenuItem value={element.name}>{element.name}</MenuItem>
+                <MenuItem key={element.name} value={element.name}>{element.name}</MenuItem>
             ))
         });
 
@@ -51,7 +50,7 @@ class IntSelectBox extends React.Component {
                 <Select 
                     label={this.props.label}
                     onChange={ (e) => this.selectOption(e) } 
-                    value={this.state.value && this.state.value.name} >
+                    value={this.state.value && this.state.value.name}>
                         {children}
                 </Select>
             </FormControl>

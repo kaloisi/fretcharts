@@ -17,6 +17,7 @@ class GuitarString extends React.Component {
         const isInKey = this.props.musicKey.tones.find(e => e === tone.name);
         notes.push((
           <Note
+            beat={this.props.beat}
             key={tone.uid}
             onClick={this.props.onClick}
             isInKey={isInKey}

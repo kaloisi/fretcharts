@@ -7,6 +7,7 @@ class Button extends React.Component {
         return (
             <MButton 
             variant='contained'
+            size='small'
             onClick={this.props.onClick}
             >{this.props.label}</MButton>
         );

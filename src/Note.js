@@ -47,25 +47,44 @@ class Note extends React.Component {
     }
 
     render() {
-      let className = 'note';
-      
       const scaleCount = this.props.scales.length;
-      const textColor = this.props.isInKey ? "black" : "#ccc";
-      const radius = 12;
+      const radius = 30;
       const pieSizeInDegs = scaleCount > 0 ? 360 / scaleCount : 0;
       const isUse = this.state.toneState.usedIn.size > 0;
       let pos = 0;
+            
+      let activeScale = undefined;
+      let nextScale = undefined;
       
+      // calculate how many degrees we should draw the circle
+      let degrees = this.props.beat ? (this.props.beat.getTick() / this.props.beat.getTicksPerBeat()) * 360 : 0;
       
+
+      for (let i = 0; !activeScale && i < this.props.scales.length; i += 1) {
+        let next = this.props.scales[i];
+        if (next.enabled && this.state.toneState.isUsedInScale(next)) {
+          activeScale = next;
+          if (i + 1 < this.props.scales.length) {
+            let comingScale = this.props.scales[i + 1];
+            if (this.state.toneState.isUsedInScale(comingScale)) {
+              nextScale = comingScale;
+            }
+          }
+        }
+      }
+          
+      
+      //console.log(activeScale, nextScale);
+
       return (
           <div
             id={this.props.id}
             key={this.props.id}
             onClick={this.select}
-            className={className}>
+            className={"note " + (this.props.isInKey ? "inKey" : "outOfKey")}>
                 
             <svg>
-                {this.props.scales.map(nextScale => {
+                {/* {this.props.scales.map(nextScale => {
                         pos = pos + 1;
                         const showMe = this.state.toneState.isUsedInScale(nextScale); //usedIn.find(n => n.uid === nextScale.uid) !== undefined
                         if (isUse && showMe) {
@@ -79,7 +98,7 @@ class Note extends React.Component {
                               <path fill={ nextScale.color } 
                                     opacity={nextScale.enabled ? 1.0 : 0.25 } 
                                     stroke="black" 
-                                    d={this.createLinesAlongCurve(startDeg, endDeg, radius * 2)} />
+                                    d={this.createLinesAlongCurve(startDeg, endDeg, radius * 0.85)} />
                               <text x={CENTER.x + p.x} y={CENTER.y + p.y} fontSize="10" 
                                     stroke={nextScale.enabled ? "white" : "black" } 
                                     dominantBaseline="central" 
@@ -88,16 +107,22 @@ class Note extends React.Component {
                           );
                         }
                         return ("<path />");
-                })}
+                })} */}
 
-                <circle key={this.props.id + "circle"} cx={CENTER.x} cy={CENTER.y} r={radius*2/3} 
-                    stroke="black" strokeWidth="1" 
-                    fill={"#ccc"}/>
+               {activeScale && (
+                  <g key={this.props.id + "." + pos}>
+                      <path fill={ activeScale.color } 
+                            opacity={activeScale.enabled ? 1.0 : 0.25 } 
+                            stroke="black" 
+                            d={this.createLinesAlongCurve(90 - degrees, 270, radius * 0.85)} />
+                  </g>)}
+
+                <circle className="centerCircle" key={this.props.id + "circle"} 
+                    cx={CENTER.x} cy={CENTER.y} r={radius/2}/>
                 
-                <text key={this.props.id + "text"} x={CENTER.x} y={CENTER.y} 
-                    fill={textColor}
-                    fontSize="12"
-                    dominantBaseline="central" textAnchor="middle">{this.props.value.name}</text>
+                <text key={this.props.id + "text"} className="centerLabel" x={CENTER.x} y={CENTER.y} 
+                    dominantBaseline="central" 
+                    textAnchor="middle">{this.props.value.name}</text>
             </svg>
           </div>);
     }
