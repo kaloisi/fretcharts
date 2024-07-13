@@ -1,5 +1,5 @@
 import React from 'react';
-import SelectBox from './ui/SelectBox';
+import { SelectBox } from './ui/SelectBox';
 import Utils from './utils';
 import TableRow from '@mui/material/TableRow';
 import { TableCell } from '@mui/material';

@@ -18,6 +18,7 @@ import TableRow from '@mui/material/TableRow';
 class Fretboard extends React.Component {
   constructor(props) {
     super(props);
+    //console.log("Loading Freeboard")
     const guitarState = new GuitarState();
 
     let urlParams = new DocParamMap();

@@ -12,14 +12,18 @@
     "@emotion/styled": "^11.11.5",
     "@mui/material": "^5.16.0",
     "@mui/styled-engine": "npm:@mui/styled-engine-sc@latest",
-    "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
+    "@types/jest": "^29.5.12",
+    "@types/node": "^20.14.10",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
     "gh-pages": "^3.2.3",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "5.0.1",
-    "styled-components": "^6.1.11"
+    "styled-components": "^6.1.11",
+    "typescript": "^5.5.3"
   },
   "resolutions": {
     "@mui/styled-engine": "npm:@mui/styled-engine-sc@latest"

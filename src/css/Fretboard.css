@@ -102,23 +102,11 @@
 }
 
 .counter {
+    display: inline;
     padding-left: 2em;
     padding-right: 2em;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-}
+    width: 10em;
+    color: ivory;
+    text-align: center;
 
-
-.counter > .counterOn {
-    display: inline;
-    font-size: large;
-    color: white;
-    font-weight: bold;
-}
-
-.counter > .counterOff {
-    display: inline;
-    color: #555;
-    font-size: large;
 }
