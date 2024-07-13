@@ -1,20 +1,13 @@
 {
   "files": {
-    "main.css": "/fretcharts/static/css/main.148d17ed.chunk.css",
-    "main.js": "/fretcharts/static/js/main.8aaf59db.chunk.js",
-    "main.js.map": "/fretcharts/static/js/main.8aaf59db.chunk.js.map",
-    "runtime-main.js": "/fretcharts/static/js/runtime-main.5d731fdf.js",
-    "runtime-main.js.map": "/fretcharts/static/js/runtime-main.5d731fdf.js.map",
-    "static/js/2.debb9cc6.chunk.js": "/fretcharts/static/js/2.debb9cc6.chunk.js",
-    "static/js/2.debb9cc6.chunk.js.map": "/fretcharts/static/js/2.debb9cc6.chunk.js.map",
+    "main.css": "/fretcharts/static/css/main.6fd014a5.css",
+    "main.js": "/fretcharts/static/js/main.a7ba3765.js",
     "index.html": "/fretcharts/index.html",
-    "static/css/main.148d17ed.chunk.css.map": "/fretcharts/static/css/main.148d17ed.chunk.css.map",
-    "static/js/2.debb9cc6.chunk.js.LICENSE.txt": "/fretcharts/static/js/2.debb9cc6.chunk.js.LICENSE.txt"
+    "main.6fd014a5.css.map": "/fretcharts/static/css/main.6fd014a5.css.map",
+    "main.a7ba3765.js.map": "/fretcharts/static/js/main.a7ba3765.js.map"
   },
   "entrypoints": [
-    "static/js/runtime-main.5d731fdf.js",
-    "static/js/2.debb9cc6.chunk.js",
-    "static/css/main.148d17ed.chunk.css",
-    "static/js/main.8aaf59db.chunk.js"
+    "static/css/main.6fd014a5.css",
+    "static/js/main.a7ba3765.js"
   ]
 }
