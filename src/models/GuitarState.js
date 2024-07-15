@@ -1,10 +1,10 @@
-import Utils from "../utils.js";
+import Utils from "../utils";
 
 const MAX_FRET_COUNT = 17;
 const SCALE_COLORS = ["#4E79A5", "#F18F3B", "#E0585B", "#77B7B2", "#5AA155", "#EDC958", "#AF7AA0", "#FE9EA8", "#9C7561", "#BAB0AC"];
 
 
-class ToneState {
+export class ToneState {
     constructor(uid, toneName, stringNumber, fret) {
         this.uid = uid;
         this.name = toneName;
@@ -36,7 +36,7 @@ class ToneState {
     }
 }
 
-class StringState {
+export class StringState {
     constructor(intervalOffset, stringNumber) {
         this.name = Utils.TONES[intervalOffset];
         this.uid = "string-" + this.name + "-" + stringNumber;
@@ -61,7 +61,7 @@ class StringState {
     }
 }
 
-class ScalePattern {
+export class ScalePattern {
 
     constructor(guitarState, toneState, stringNumber, fretNum, scaleNumber, color) {
         this.guitarState = guitarState;

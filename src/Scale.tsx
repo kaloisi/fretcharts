@@ -4,9 +4,24 @@ import Utils from './utils';
 import TableRow from '@mui/material/TableRow';
 import { TableCell } from '@mui/material';
 import Button from './ui/Button';
+import { ScalePattern } from './models/GuitarState';
 
-class Scale extends React.Component {
-   
+interface ScaleAttrs {
+    onDelete: (val: ScalePattern) => void,
+    addToProgression: (val: ScalePattern) => void,
+    onCheck: (val: ScalePattern) => void,
+    onChange: (val: ScalePattern, newPosition: ScalePattern) => void,
+    value: ScalePattern
+}
+
+interface ScaleState {
+
+}
+
+class Scale extends React.Component<ScaleAttrs, ScaleState> {
+    constructor(props: ScaleAttrs) {
+        super(props);
+    }
 
     delete() {
         if (this.props.onDelete) {
@@ -14,13 +29,13 @@ class Scale extends React.Component {
         }
     }
 
-    select(newPosition) {
+    select(newPosition :ScalePattern) {
         if (this.props.onChange) {
             this.props.onChange(this.props.value, newPosition);
         }
     }
 
-    onCheck(evt) {
+    onCheck() {
         if (this.props.onCheck) {
             this.props.onCheck(this.props.value);
         }
@@ -44,13 +59,14 @@ class Scale extends React.Component {
             <TableRow>
                 <TableCell style={style}></TableCell>
                 <TableCell>
-                    <input type="checkbox" checked={this.props.value.enabled} onChange={(e) => this.onCheck(e)}/>
+                    <input type="checkbox" checked={this.props.value.enabled} onChange={(e) => this.onCheck()}/>
                     <a href={url} target="_blank" rel="noreferrer">
                     {this.props.value.name} ({this.props.value.toneState.stringNumber + 1}, {this.props.value.toneState.fret})
                     </a>
                 </TableCell>
                 <TableCell>
                     <SelectBox
+                        label="Position"
                         value={this.props.value.position}
                         options={options}
                         onChange={(e) => this.select(e)}
@@ -58,11 +74,11 @@ class Scale extends React.Component {
                 </TableCell>
                 <TableCell>
                     <Button 
-                        onClick={(e) => this.delete()}
+                        onClick={() => this.delete()}
                         label="Delete"
                         />
                     <Button 
-                        onClick={(e) => this.addToProgression()}
+                        onClick={() => this.addToProgression()}
                         label="Add to chord progression"
                         />
                 </TableCell>

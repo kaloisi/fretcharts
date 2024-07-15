@@ -1,12 +1,12 @@
 import './css/Fretboard.css';
 
 import React from 'react';
-import GuitarString from './GuitarString.js';
-import Scale from './Scale.js';
+import GuitarString from './GuitarString';
+import Scale from './Scale';
 import Utils from './utils';
 import GuitarState from './models/GuitarState';
 import ControlPanel from './ControlPanel';
-import DocParamMap from './models/DocParamMap.js';
+import DocParamMap from './models/DocParamMap';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
