@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/fretcharts/static/css/main.6fd014a5.css",
-    "main.js": "/fretcharts/static/js/main.a7ba3765.js",
+    "main.js": "/fretcharts/static/js/main.7308cf26.js",
     "index.html": "/fretcharts/index.html",
     "main.6fd014a5.css.map": "/fretcharts/static/css/main.6fd014a5.css.map",
-    "main.a7ba3765.js.map": "/fretcharts/static/js/main.a7ba3765.js.map"
+    "main.7308cf26.js.map": "/fretcharts/static/js/main.7308cf26.js.map"
   },
   "entrypoints": [
     "static/css/main.6fd014a5.css",
-    "static/js/main.a7ba3765.js"
+    "static/js/main.7308cf26.js"
   ]
 }
