@@ -1,8 +1,8 @@
 
 
 
-async function fetchAudio(audioCtx: AudioContext, name: string, callback: (name: string, buffer: AudioBuffer) => void ) {
-    let request = new XMLHttpRequest();
+async function fetchAudio(audioCtx: AudioContext, name: string, callback: (name: string, buffer: AudioBuffer) => void): Promise<void> {
+    let request: XMLHttpRequest = new XMLHttpRequest();
     request.open('GET', process.env.PUBLIC_URL + '/mp3/' + name + '.mp3', true);
     request.responseType = 'arraybuffer';
     
@@ -13,11 +13,11 @@ async function fetchAudio(audioCtx: AudioContext, name: string, callback: (name:
                 console.log(`${name} loaded: `, request);
                 if (audioCtx) {
                     audioCtx.decodeAudioData(responseData,
-                        (buffer) => {
+                        (buffer: AudioBuffer) => {
                             console.log(`${name} decoded`, buffer);
                             callback(name, buffer);
                         },
-                        (e) => {
+                        (e: DOMException) => {
                             console.log("Error", e);
                         });
                 } else {
@@ -44,7 +44,7 @@ class AudioRepo {
         this.count = 0;
     }
 
-    init(audioContext : AudioContext) {
+    init(audioContext: AudioContext): void {
         if (!this.audioBuffers) {
             this.audioBuffers = new Map();
             for(let i = 0; i < this.files.length; i++) {
@@ -62,7 +62,7 @@ class AudioRepo {
         }
     }
 
-    onComplete(audioCtx: AudioContext) {
+    onComplete(audioCtx: AudioContext): void {
         console.log("Complete", this);
         this.mergeAs(audioCtx, 'drum-set-1-3', ['drum-set-base','drum-set-hi-hat']);
         this.mergeAs(audioCtx, 'drum-set-2-4', ['drum-set-hi-hat', 'drum-set-snare']);
@@ -79,22 +79,23 @@ class AudioRepo {
         this.mergeAs(audioCtx, 'snoop-drum-8', ['drum-set-2-4' /*, "eight" */]);
     }
     
-    setAudioBuffer(name :string, buffer : AudioBuffer) {
-        this.audioBuffers && this.audioBuffers.set(name, buffer);
+    setAudioBuffer(name: string, buffer: AudioBuffer): void {
+        if(this.audioBuffers) {
+            this.audioBuffers.set(name, buffer);
+        }
     }
 
-    getAudioBuffer(name: string | undefined) : AudioBuffer | undefined{
+    getAudioBuffer(name: string | undefined): AudioBuffer | undefined {
         if (!name) {
             return undefined;
         }
 
         let res = this.audioBuffers?.get(name);
-        //console.log(name + " = " + res, this.audioBuffers);
         return res;
     }
 
-    mergeAs(audioCtx: AudioContext, newName :string, mixed :string[]) {
-        let dest = undefined;
+    mergeAs(audioCtx: AudioContext, newName: string, mixed: string[]): void {
+        let dest: AudioBuffer | undefined = undefined;
 
         for(let i = 0; i < mixed.length; i += 1) {
             const nextName = mixed[i];
@@ -138,46 +139,39 @@ type SoundMap = {
 
 export class AudioFiles {
     name: string;
-    files: Map<string, string>
+    files: Record<string, string>
 
-    constructor(name :string, fileMap : SoundMap) {
+    constructor(name: string, fileMap: SoundMap) {
         this.name = name;
-
-        this.files = new Map<string, string>();
+        this.files = {};
         if (fileMap.BEATS) {
-            for(let i = 0; i < fileMap.BEATS.length; i+= 1) {
-                this.files.set((i + 1).toString() , fileMap.BEATS[i]);
+            for (let i = 0; i < fileMap.BEATS.length; i += 1) {
+                this.files[(i + 1).toString()] = fileMap.BEATS[i];
             }
         }
 
-        fileMap.AND && this.files.set('-AND', fileMap.AND);
-        fileMap.EEE && this.files.set('eee', fileMap.EEE);
-        fileMap.UH && this.files.set('uh', fileMap.UH);
-        fileMap.TRIP && this.files.set('trip', fileMap.TRIP);
-        fileMap.LET && this.files.set('let', fileMap.LET);
-        fileMap.WILDCARD && this.files.set('*', fileMap.WILDCARD);
+        if (fileMap.AND) this.files['-AND'] = fileMap.AND;
+        if (fileMap.EEE) this.files['eee'] = fileMap.EEE;
+        if (fileMap.UH) this.files['uh'] = fileMap.UH;
+        if (fileMap.TRIP) this.files['trip'] = fileMap.TRIP;
+        if (fileMap.LET) this.files['let'] = fileMap.LET;
+        if (fileMap.WILDCARD) this.files['*'] = fileMap.WILDCARD;
 
         console.log(`${name}`, this.files);
     }
 
 
-    getAudioBuffer(beatName: string | number) : AudioBuffer | undefined {
+    getAudioBuffer(beatName: string | number): AudioBuffer | undefined {
         let beatNameAsString = typeof beatName === "number" ? beatName.toString() : beatName;
-        let audioBufferName = this.files.get(beatNameAsString);
-        let audioBuffer = undefined;
+        let audioBufferName = this.files[beatNameAsString];
+        let audioBuffer: AudioBuffer | undefined = undefined;
 
         if (audioBufferName) {
             audioBuffer = AUDIO_REPO.getAudioBuffer(audioBufferName);
-        } else {
-            //console.log(`${beatName} is undefined`)
         }
 
         if (!audioBuffer) {
-            audioBuffer = AUDIO_REPO.getAudioBuffer(this.files.get('*'));
-        }
-
-        if (!audioBuffer) {
-            //console.log(`AudioBuffer not found for ${beatName} ${audioBufferName}`, this);
+            audioBuffer = AUDIO_REPO.getAudioBuffer(this.files['*']);
         }
         return audioBuffer;
     }

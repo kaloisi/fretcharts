@@ -1,6 +1,6 @@
 import React from 'react';
 import { SelectBox } from './ui/SelectBox';
-import Utils from './utils';
+import { Utils } from './utils';
 import TableRow from '@mui/material/TableRow';
 import { TableCell } from '@mui/material';
 import Button from './ui/Button';
@@ -33,6 +33,14 @@ class Scale extends React.Component<ScaleAttrs, ScaleState> {
         if (this.props.onChange) {
             this.props.onChange(this.props.value, newPosition);
         }
+    }
+
+    isEnabled() : Boolean {
+        return this.props.value.enabled
+    }
+
+    getColor() : string {
+        return this.props.value.color
     }
 
     onCheck() {

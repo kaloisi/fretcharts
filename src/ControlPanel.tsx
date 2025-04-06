@@ -1,5 +1,5 @@
 import React from 'react';
-import Utils from './utils';
+import { KEYS } from './utils';
 import ChordProgression from './ChordProgression';
 import Beat from './models/Beat';
 import { AudioFiles , AudioLib , AUDIO_REPO } from './models/AudioFiles';
@@ -22,12 +22,12 @@ interface Props {
     /** ticks per beat */
     tpb: number,
     volume: number,
-    onBeatChange: (beat:Beat) => {},
-    onStop: () => {},
-    onKeyChange: (key : any) => {};
+    onBeatChange: (beat: Beat) => void,
+    onStop: () => void,
+    onKeyChange: (key : any) => void;
 }
 
-interface MyState {
+interface ControlPanelState {
     musicKey: any,
     bpm: number,
     bpb: number,
@@ -37,11 +37,12 @@ interface MyState {
     playing : boolean,
     beat ?: Beat,
     interval ?: unknown,
-    audioFilesIdx : number
+    audioFilesIdx : number,
+    count: number
 }
 
 
-export default class ControlPanel extends React.Component<Props, MyState> {
+export default class ControlPanel extends React.Component<Props, ControlPanelState> {
     audioCtx ?: AudioContext;
     audioOut ?: GainNode;
 
@@ -60,7 +61,8 @@ export default class ControlPanel extends React.Component<Props, MyState> {
             playing: false,
             interval: undefined,
             beat: undefined,
-            audioFilesIdx: 0
+            audioFilesIdx: 0,
+            count : 0
         };
     }
 
@@ -218,7 +220,7 @@ export default class ControlPanel extends React.Component<Props, MyState> {
     }
 
     render() {
-        const allKeys = Object.values(Utils.KEYS);
+        const allKeys = Object.values(KEYS);
         return (
         <Stack component="section" alignItems="center">
             <ButtonGroup variant="contained" size="small">
@@ -290,6 +292,7 @@ export default class ControlPanel extends React.Component<Props, MyState> {
                 beat={this.state.beat} 
                 bpb={this.state.bpb}
                 bpm={this.state.bpm}
+                count={this.state.count}
                 />
         </Stack>
         );

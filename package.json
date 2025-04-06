@@ -2,7 +2,7 @@
   "name": "fretcharts",
   "version": "0.1.0",
   "private": true,
-  "main": "index.js",
+  "main": "index.tsx",
   "repository": "https://github.com/kaloisi/fretcharts.git",
   "homepage": "https://kaloisi.github.io/fretcharts/",
   "author": "kaloisi <kaloisi@gmail.com>",
