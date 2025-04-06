@@ -1,6 +1,6 @@
 import React from 'react';
 import Note from './Note';
-import { StringState, ToneState } from './models/GuitarState';
+import { ScalePattern, StringState, ToneState } from './models/GuitarState';
 import Beat from './models/Beat';
 import Scale from './Scale';
 import {Utils, MusicKey } from './utils'
@@ -10,7 +10,7 @@ import {Utils, MusicKey } from './utils'
     beat?: Beat;
     musicKey: MusicKey;
     onClick: (tone: ToneState) => void;
-    scales: Scale[];
+    scales: ScalePattern[];
   }
   
   interface GuitarStringState {

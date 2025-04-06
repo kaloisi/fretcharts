@@ -1,6 +1,6 @@
 import React from 'react';
 import Scale from './Scale'
-import { ToneState } from './models/GuitarState';
+import { ScalePattern, ToneState } from './models/GuitarState';
 import Beat from './models/Beat';
 
 const CENTER = { x: 30, y: 30 };
@@ -12,7 +12,7 @@ interface NoteProps {
   beat?: Beat;
   isInKey: boolean;
   onClick: (value: ToneState) => void;
-  scales: Scale[];
+  scales: ScalePattern[];
 }
 
 interface NoteState {
@@ -72,11 +72,11 @@ class Note extends React.Component<NoteProps, NoteState> {
       ? (this.props.beat.getTick() / this.props.beat.getTicksPerBeat()) * 360
       : 0;
 
-    let activeScale: Scale | undefined = undefined;
+    let activeScale: ScalePattern | undefined = undefined;
     for (let i = 0; !activeScale && i < this.props.scales.length; i += 1) {
       const next = this.props.scales[i];
       console.log(next)
-      if (this.state.toneState.isUsedInScale(next.props.value)) {
+      if (this.state.toneState.isUsedInScale(next)) {
         activeScale = next;
       }
     }
@@ -92,8 +92,8 @@ class Note extends React.Component<NoteProps, NoteState> {
           {activeScale && (
             <g key={this.props.id + '.' + pos}>
               <path
-                fill={activeScale.getColor()}
-                opacity={activeScale.isEnabled() ? 1.0 : 0.25}
+                fill={activeScale.color}
+                opacity={activeScale.enabled ? 1.0 : 0.25}
                 stroke="black"
                 d={this.createLinesAlongCurve(90 - degrees, 270, radius * 0.85)}
               />
