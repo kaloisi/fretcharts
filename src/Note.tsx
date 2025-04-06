@@ -45,20 +45,17 @@ class Note extends React.Component<NoteProps, NoteState> {
 
   createLinesAlongCurve(startDeg: number, endDeg: number, radius: number) {
     const deltaDeg = 5;
-    let data =
-      'M ' +
-      CENTER.x +
-      ' ' +
-      (this.props.scales.length > 1 ? CENTER.y : CENTER.y - radius) +
-      ' \n';
+    let o = "M";
+    let data = "";
     for (let i = startDeg; i < endDeg + deltaDeg; i += deltaDeg) {
       const deg = Math.min(i, endDeg);
       const p = this.cacluatePointOnCircle(deg, radius);
       const x = CENTER.x + p.x;
       const y = CENTER.y + p.y;
-      data += ' L ' + x + ' ' + y + ' \n';
+      data +=  o + x + ' ' + y + ' \n';
+      o = "L"
     }
-    return data + ' z';
+    return data + ' ';
   }
 
   createPath(): string | undefined {
@@ -69,8 +66,8 @@ class Note extends React.Component<NoteProps, NoteState> {
     const radius = 30;
     let pos = 0;
     const degrees = this.props.beat
-      ? (this.props.beat.getTick() / this.props.beat.getTicksPerBeat()) * 360
-      : 0;
+      ? ( (1 + this.props.beat.getTick()) / this.props.beat.getTicksPerBeat()) * 360
+      : 380;
 
     let activeScale: ScalePattern | undefined = undefined;
     for (let i = 0; !activeScale && i < this.props.scales.length; i += 1) {
@@ -92,10 +89,11 @@ class Note extends React.Component<NoteProps, NoteState> {
           {activeScale && (
             <g key={this.props.id + '.' + pos}>
               <path
-                fill={activeScale.color}
-                opacity={activeScale.enabled ? 1.0 : 0.25}
-                stroke="black"
-                d={this.createLinesAlongCurve(90 - degrees, 270, radius * 0.85)}
+                strokeWidth="5"
+                fill='transparent'
+                opacity={activeScale.enabled ? 1.0 : 0.33}
+                stroke={activeScale.color}
+                d={this.createLinesAlongCurve(-90, degrees - 90, radius * 0.85)}
               />
             </g>
           )}
